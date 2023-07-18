@@ -24,4 +24,5 @@ urlpatterns = [
     path('posts/', views_blog.posts),
     path('posts/', include('blog.urls')),
     path('', views_main.main_page),
+    # //
 ]
