@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 # def leo(request):
@@ -27,6 +28,13 @@ signs = {
     "pisces": "Рыбы - двенадцатый знак зодиака, планеты Юпитер (с 20 февраля по 20 марта)."
 }
 
+zodiac_element = {
+    'fire': ['aries', 'leo', 'sagittarius'],
+    'earth': ['taurus', 'virgo', 'capricorn'],
+    'air': ['gemini', 'libra', 'aquarius'],
+    'water': ['cancer', 'scorpio', 'pisces']
+}
+
 
 def get_info_about_sign_zodiac(request, sign_of_zodiac: str):
     description = signs.get(sign_of_zodiac)
@@ -37,7 +45,30 @@ def get_info_about_sign_zodiac(request, sign_of_zodiac: str):
 
 def get_info_about_sign_zodiac_by_number(request, sign_of_zodiac: int):
     zodiacs = list(signs)
-    if sign_of_zodiac > len(zodiacs) or sign_of_zodiac==0:
+    if sign_of_zodiac > len(zodiacs):
         return HttpResponseNotFound(f"Неправильный порядковый номер знака зодиака - {sign_of_zodiac}")
     name_zodiac = zodiacs[sign_of_zodiac - 1]
-    return HttpResponseRedirect(f"/horoscope/{name_zodiac}")
+    redirect_url = reverse("horoscope-name", args=[name_zodiac])
+    return HttpResponseRedirect(redirect_url)
+
+
+def index(request):
+    zodiacs = ''.join(
+        f'<li> <a href={reverse("horoscope-name", args=[x])}> {x.title()} </a> </li>' for x in list(signs))
+    rez = f'<h2><ul>{zodiacs}</ul></h2>'
+    return HttpResponse(rez)
+
+
+def type_index(request):
+    li_elements = ''
+    for x in zodiac_element:
+        li_elements += f'<li> <a href="{x}/"> {x.title()} </a> </li>'
+    return HttpResponse(f'<ul>{li_elements}</ul>')
+
+
+def type_horoscope(request, type_of_name: str):
+    li_elements = ''
+    for x in zodiac_element[type_of_name]:
+        redirect_path = reverse('horoscope-name', args=[x])
+        li_elements += f'<li> <a href="{redirect_path}"> {x.title()} </a> </li>'
+    return HttpResponse(f'<ul>{li_elements}</ul>')

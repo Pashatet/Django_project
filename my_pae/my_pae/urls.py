@@ -25,5 +25,4 @@ urlpatterns = [
     # path('week_days/tuesday', views_week_days.tuesday),
     path('week_days/', include('week_days.urls')),
     path('calculate_geometry/', include('geometry.urls')),
-    # path
 ]
