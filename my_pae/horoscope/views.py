@@ -72,3 +72,15 @@ def type_horoscope(request, type_of_name: str):
         redirect_path = reverse('horoscope-name', args=[x])
         li_elements += f'<li> <a href="{redirect_path}"> {x.title()} </a> </li>'
     return HttpResponse(f'<ul>{li_elements}</ul>')
+
+
+def get_my_date_converters(request, sign_of_zodiac):
+    return HttpResponse(f'Вы передали месяц,число,год из 4-х символов - {sign_of_zodiac}')
+
+
+def get_yyyy_converters(request, sign_of_zodiac):
+    return HttpResponse(f'Вы передали число из 4-х символов - {sign_of_zodiac}')
+
+
+def get_my_float_converters(request, sign_of_zodiac):
+    return HttpResponse(f'Вы передали нецелое число - {sign_of_zodiac}')
