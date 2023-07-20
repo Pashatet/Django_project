@@ -29,3 +29,23 @@ class MyDateConverter:
 
     def to_url(self, value):
         return value.strftime('%d-%m-%Y')
+
+
+class SplitConvertor:
+    regex = r'([a-zA-Z]+,)+[a-zA-Z]+'
+
+    def to_python(self, value):
+        return value.split(',')
+
+    def to_url(self, value):
+        return ','.join(value)
+
+class UpperConvertor:
+    regex = r'[a-z]+'
+
+    def to_python(self, value):
+        return value.upper()
+
+    def to_url(self, value):
+        return value.lower()
+

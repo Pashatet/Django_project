@@ -84,3 +84,9 @@ def get_yyyy_converters(request, sign_of_zodiac):
 
 def get_my_float_converters(request, sign_of_zodiac):
     return HttpResponse(f'Вы передали нецелое число - {sign_of_zodiac}')
+
+def get_my_list_converters(request, sign_of_zodiac):
+    return HttpResponse(f"{sign_of_zodiac}")
+
+def get_my_upper_convertes(request, sign_of_zodiac):
+    return HttpResponse(f"{sign_of_zodiac}")
