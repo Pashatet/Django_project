@@ -17,12 +17,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from blog import views as views_blog
-from . import views as views_main
+# from . import views as views_main
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('posts/', views_blog.posts),
+    # path('posts/', views_blog.posts),
     path('posts/', include('blog.urls')),
-    path('', views_main.main_page),
+    # path('', views_main.main_page),
     # //
 ]

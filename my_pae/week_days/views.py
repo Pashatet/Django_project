@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
 
+
+def get_info_greeting(request):
+    return render(request, 'week_days/greeting.html')
 # Create your views here.
 def monday(responce):
     return HttpResponse('''<!DOCTYPE html>

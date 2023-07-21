@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # прописываем сюда название своего приложения
+    'horoscope',
+    'week_days',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +57,9 @@ ROOT_URLCONF = 'my_pae.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # BASE_DIR / 'horoscope' / 'templates' способ подключения шаблона
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
