@@ -1,0 +1,738 @@
+def get_V(a,b,c, verbose=True) a,b,c - фактические параметры после их можно
+только ставить args
+verbose - формальные параметры, потом только kwargs
+
+тип bool наследутеся от int
+isinstance(перем, тип данных) - проверка принадлежности обьекта к типу данных
+importlib.reload(название модуля) - модуль для того чтобы повторно импортировать
+ модуль
+
+10e2 = 100
+0b101010 = 42 = bin(42)
+0x1f = 31 = hex(31)
+0o424 = 276 =
+
+namedtuple() - что это
+a = random.guess(0.3, 3.5)
+a = random.choice(lst) - рандомный элемент с списка
+random.choice(lst) - перемешивает список
+a = random.sample(lst, 3) - из списка выбирает количество неповторяемых случайных элементов
+random.seed(некое число) - зафиксировать зерно генератора случайных чисел для получения однйо и тойже комбинации
+
+
+работа с файлами
+open(file [, mode='r', encoming=None,...]) режим 'a' чтобы добавить данные в уже
+существующий файл, если файла нет он создастся
+'a+' - открыть файл в режим дозапись и чтение. при таком режиме каретку нужно
+перенести в начало
+'wb' - открыть в бинарном режиме  чтобы пользоваться режимом нужно сделать ->
+import pickle pickle.dump(что(словарь), куда)
+'rb' - открыть в бинарном режиме pickle.load(что(file))
+file - путь к файлу
+mode - режим доступа к файлу(чтение запись)
+encoming - кодировка файла
+d:\\app\\my_file.txt - путь для windows
+d:/app/my_file.txt - путь для windows ans linux
+файлавая позиция показывает на номер байта file.tell()
+file.seek(0) перенести катерку в начало
+file.readline() - читает строку до первого /not
+file.close() - закрытие файла
+file.write() - запись в файл
+file.writelines() - Записать в файл несколько строк
+try:
+    with open('file.txt',encoding='utf-8') as file:
+        s = file.readlines()
+        print(s)
+заменяет
+try:
+    open('file.txt', encoding='utf-8')
+    try:
+        s = file.readlines()
+        print(s)
+    except:
+        file.close()
+
+мененджер контекста(with)
+__enter__() - срабатывает в момент создания обьекта менеджера контекста
+__exit__() - срабатывает в момент завершения работы менеджера контекста или возникновения исключений
+
+рекурсивная функция при вызове ее след рекурсивная функция помещается в стек
+вывова функции и их всего 997 если после рекурсии мы указывает доп функции то
+они будет вызываться i-1 раз количетва рекурсий в стеке. рекурсия применяется
+для обхода по файлам
+def recursive(value):
+    print(value)
+    if value < 4:
+        recursive(value+1)
+    print(value)
+вывод 1 2 3 4 4 3 2 1
+
+def add_value(value, lst=None):
+    if lst is None:
+        lst = []
+    lst.append(value)
+    return lst
+
+l = add_value(1)
+l = add_value(2, l)
+предпочитаем использовать листкомп, генэксп чем map/filter
+если список не нужен используем генератор(нужна только сама функция)
+проверка на пустую колекцию
+integers = []
+if integers:
+    print('не пустая')
+else:
+    print('пустая')
+
+сырая строка r'выведет все что внутри кавычек\\'
+типы данных изменяемые Numbers(int, float, complex), Strings, Tuples
+не изменяемые Lists, Sets(set, frozenset), Boolean, Dictionaries
+
+x,y = 1,2 тоже самое что x,y = (1,2)
+кортеж с одним числом d = (1,) or d = 2, оставить висящую запятую
+когда берем полный срез у tuple копия не создается а у list создается
+кортеж занимает меньше памяти чем список __sizeof__
+
+элементами списка являются кортежи
+apppend() - добавляет в конец списка
+insert(index, param) - добавляет на указанный индекс новое значение
+remove() - удаляет первое переданнео значение, если передать True то удалит 1
+    если она есть и стоит перед значение True, False работает по аналогии
+pop() - удаляет по индексу и позвращает удаленный обьект, если не передать
+    аргумент удалит последний в списке
+c = a.copy() = a[:] = list(a)
+clear() - очищает весь список
+count() - возвращает количество переданных обьетов
+index(значение которое ищем, стартовый индекс)  - возвращает индекс первого
+    найденого значения
+reverse() - меняет порядок следования аргументов
+a.sort(reverse=True, key=lambda) - сортирует по возростанию, применяет к
+текущему списку, reverse=True
+sorted(a, reverse=True, key=lambda) возвращает отсортированный список,
+
+while <условие цикла>: заголовок
+    операторы
+else:
+    блок операторов который выполняется после штатного завершения цикла
+
+индекс, значение = enumerate(обьект)
+for i, d in enumerate(digs):
+    if 10 <= abs(d) <= 99:
+    digs[i] = 0
+
+простой итератор a = [1,2,3,4]
+it = iter(a)
+next(it)
+
+вложенные циклы
+a = [[1,2,3,4],[5,6,7,8],[9,10,11,12], [13,14,15,16]]
+c = []
+
+for i in range(len(a)):
+    for j in range(i+1, len(a)):
+        a[i][j], a[j][i] = a[j][i], a[i][j]
+
+for r in a:
+    for x in r:
+        print(x, end='\t')
+    print()
+
+1	5	9	13
+2	6	10	14
+3	7	11	15
+4	8	12	16
+
+треугольник паскаля
+P = []
+for i in range(8):
+    lst = [1] * (i+1)
+    for j in range(i+1):
+        if j != 0 and j !=i:
+            lst[j] = P[i-1][j-1]+P[i-1][j]
+    P.append(lst)
+
+for r in P:
+    print(r)
+
+[1]
+[1, 1]
+[1, 2, 1]
+[1, 3, 3, 1]
+[1, 4, 6, 4, 1]
+[1, 5, 10, 10, 5, 1]
+[1, 6, 15, 20, 15, 6, 1]
+[1, 7, 21, 35, 35, 21, 7, 1]
+
+вложенные генераторы списков
+к генератору нельзя обращаться по индексую можно создать ссылку на генератор
+потом это ссылку запихнуть в list и получим элементы генератора. list sum min
+max set
+sum([n * n for n in numbers])
+
+x = [i for j in matrix for i in j]
+A = [[row[i] for row in matrix] for i, j in enumerate(matrix[0])]
+AA = [x ** 2 for x in [t+1 for t in range(5)]]
+print(AA)
+
+matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+x = []
+for i, j in enumerate(matrix):
+    for jj, jjj in enumerate(j):
+        x.append(jjj)
+print(x)
+
+lst = [[2, 'неуд'],[3, 'удов'],[4, 'хорошо'],[5, 'отлично']]
+c = dict(lst)
+print(c)
+{2: 'неуд', 3: 'удов', 4: 'хорошо', 5: 'отлично'}
+d[False] = 'Истина'
+2 in c проверка только для ключей
+fromkeys() - ключ с заданными ключами
+clear() - быстро очистить словарь
+d.copy() or d2 = dict(d) - создании копии словаря
+get( , if not key result default) - возвращает значение ключа если ключа нет
+ничего не выводит
+setdefault() - если ключ существует выводит его если его нет добавляет новые
+значения
+pop( ,default что возв если нет ничего) - удалить ключ и возвращает его значение
+popitem() - удаляет последней добавленный элемент
+keys() - возвращает список ключей for обходит по keys
+values() - значения ключей
+items() - преобразует в кортеж(ключ + значение)
+d.update(d2) - обновление словаря d cловарем d2 тоже самое что d = {**d1, **d2}
+
+в множествах могут быть только не изменяемые типы данных
+создать пустое множество a = set{}
+b.add(7) - добавить в множество
+b.update() - добавить в множество несколько обьектов
+d.discard(2) - при удалении не сущ обьекто не возвращает ошибку
+d.remove(2) - при удалении не сущ обьекто возвращает ошибку
+d.pop() - удаляет произвольный элемент и возвращает этот обьект
+d.clear() - очищает множество
+setA & setB - результта пересечения двух множеств исходнеы множество остаются
+без именений тоже самое что setA.intersection(setB)
+setA.intersection_update(setB) - setA будет хранить пересечение двух множест
+setA | setB - обьединение двух множеств тоже самое что и setA.union(setB)
+setA-setB - вычетание множеств возвращает оставшиеся значения setA
+setA^setB - возвращает несовпадающие элементы от двух множеств
+setA = {7,6,5,4,3}
+setB = {3,4,5}
+setB < setA - множество setB сключается в setA
+m = {"безнадежно":0, "убого":1, "неуд":'2', "удов":3, "хорошо":'4', "отлично":'5'}
+m1 = {value: key for key, value in m.items() if 2<int(value)<5}
+print(m1)
+
+def get_max2(a,b):
+    return a if a>b else b
+
+x,y,z = 1,2,3
+print(get_max2(x, get_max2(y,z))
+
+тернарный оператор автоматически возвращает результат
+res = a if a > b else b
+'a - ' + ('четное' if a % 2 == 0 else 'нечетное') + ' число' скобки отделили
+строку от тернарного оператора. Турнарный оператор можно сложить в другой
+тенрнарный оператор
+
+
+перечисления (собрать в себе данные определенного типа)
+класс который содердит в себе указанные флаги связаннеы между собой
+
+values = [False,False,True]
+values2 = [True,True,True]
+all(values)->False ищет все одинаковые значения
+all(values2)->True
+
+any(values1)->True ищет хотябы одно True(1,11) и выводит тру если есть
+any(values2)->True
+
+
+a = 3
+b = eval('a + 2')
+print('b =', b)
+
+exec('c = a ** 2')
+print('c is', c)
+
+
+print(bool(...))
+"""ellipsis NotImplemented не определенные функции (не реализованна)"""
+def tets(): ...
+def tets1():
+    return NotImplemented
+print(...)
+print(bool(None))
+
+b = 5
+c is 9
+
+global & nonlocal
+N = 100
+
+
+def my_funk(lst):
+    global N
+    """
+    global N укажет что мы хотим использовать переменную N из глобальнйо
+    области а не создавать ее снова. можем записывать только те
+    переменные которые отсутствуют в локальной области видимости.
+    """
+    N = 20
+    for x in lst:
+        n = x + 1 + N
+        print(n)
+
+
+my_funk([1, 2, 3])
+
+x = 0
+
+
+def funk1():
+    x = 1
+    'Тут мы уже не можем прописать global x т.к позади нет еще локалиной ' \
+    'функции'
+    'берем переменную x из внешней области видимости если мы прописали ' \
+    'nonlocal. '
+    def funk2():
+        nonlocal x
+
+        x = 2
+        print('funk2', x)
+
+    funk2()
+    print('funk1', x)
+
+
+funk1()
+print('Обычный x', x)
+
+''' замыкание
+это внутрення функция, которая возвращается из внешней и использует переменные
+из внешнего скоупа и каждое замыкание имеет свое состояние и они не пересекаются
+хранить состояние(данные) предоставляет интерфельс для работы с ими скрывает
+даннеы и помогает скрывать global
+'''
+
+def average():
+    values = []
+
+    def inner(value: int) -> float:
+        values.append(value)
+        return sum(values) / len(values)
+
+    return inner
+
+
+if __name__ == '__main__':
+    f1 = average()
+    print(f1(1))
+    print(f1(2))
+    print(f1(4))
+
+
+1. что такое хеш функция
+2. что такое декораторы, синтетический сахор
+import math
+from functools import wraps чтобы не ручками не переопределять документацию и
+имя функции к которой применен декоратор
+
+def df_decorator(dx = 0.001):
+    def funk_decorator(funk):
+        @wraps(funk)
+        def wraper(x, *args, **kwargs):
+            res = (funk(x + dx, *args, **kwargs) - funk(x, *args, *kwargs)) / dx
+            return res
+        # wraper.__name__ = funk.__name__
+        # wraper.__doc__ = funk.__doc__
+        return wraper
+    return funk_decorator
+
+
+# @df_decorator(dx = 0.5)
+def sin_df(x):
+    '''
+    функция для вичисления производных функции
+    :param x:
+    :return:
+    '''
+    return math.sin(x)
+
+
+sin_df = df_decorator(dx=0.001)(sin_df)
+df = sin_df(math.pi/3)
+# print(sin_df.__doc__, sin_df.__name__)
+print(df)
+3. какие декораторы есть в стандартной библиотеке
+@classmethod и @staticmethod ограничивают область видимости внутри этих методов
+но доступ к нип происходит по единой схеме
+@classmethod
+cls из-за него можно вызывать другие статические методы клаccа либо обращаться
+к атрибутам обьявленным в классе а к экземплярам класса обращаться нельзя нет
+ссылки self
+@staticmethod
+совершенно изолированный от свойства и методов класса и экземпляров
+работает с параметрами определенные в самой функции класса, не будет работать к атрибутам класса и к локальным атрибутам
+экземпляра класса
+тематично связан с классом в котором мы его обьявили(это простой метод, который работает как обычная функция, но
+определен внутри класса для логической связи.)
+
+class Vector:
+    MIN_COORD = 0
+    MAX_COORD = 100
+
+    def setCoords(self, x, y):
+        if Vector.validate(x) and Vector.validate(y):
+            self.x = x
+            self.y = y
+
+    @classmethod
+    def validate(cls, arg):
+        if cls.MIN_COORD <= arg <= cls.MAX_COORD:
+            return True
+        return False
+
+    @staticmethod
+    def norm2(x, y):
+        return x * x + y * y
+
+
+print(Vector.validate(2))
+print(Vector.norm2(1,2))
+p = Vector()
+print(Vector.setCoords(p, 1, 2))
+print(p.setCoords(1, 2))
+print(p.validate(10))
+print(p.norm2(1,2))
+
+@property
+class Person:
+    def __init__(self, name, old):
+        self.__name = name
+        self.__old = old
+
+    """обязательно перед гетером"""
+    @property
+    def old(self):
+        return self.__old
+
+    """имя должно быть такоеже как и у гетера"""
+    @old.setter
+    def old(self, old):
+        self.__old = old
+
+    @old.deleter
+    def old(self):
+        '''вызывается для удаления локального свойства'''
+        del self.__old
+
+    # property(setter(), getter(), deleter())
+    # old = 4
+    # old = property(get_old, set_old) тоже самое что и ниже
+    # old = property
+    # old = old.setter(set_old)
+    # old = old.getter(get_old)
+
+
+p = Person('Sergey', 20)
+# p.__dict__['old'] = 'old in object p'
+del p.old
+# p.old = 25
+print(p.__dict__)
+
+сначала берется свойство из локальной области а если оно не находится то из
+простаранста времен класса, а если у нас есть обьект свойсва(property) то оно
+берется в первую очередь
+4. что такое итератор и генератор, корутина
+5. что такое list comprehension
+n = [i for i in range(6)]
+6. что такое магические методы
+7. что такое миксин
+(примесь класса в другте классы) вынесенье кода в другой класса а потом
+этот код примесить в другие классы. миксин стоит просисывать первым т.к он
+будет первым обрабатываться
+class BaseClass:
+    def test(self):
+        print('BaceClass')
+
+class Mixin:
+    def test(self):
+        print('Mixin')
+
+class MyClass(BaseClass, Mixin):
+    pass
+
+obj = MyClass()
+obj.test()
+8. args and kwargs
+позиционные(* - операция распаковки) и именованные аргументы(сборка
+именованных аргументов в словарь
+и наоборот)
+9. анатация типов
+mypy модуль для проверки анатаций
+from typing import  Optional, Union, Any, Final, Callable
+Callable[[TypeArg1, TypeArg2, TypeArg3], ReturnType]
+x: Union[int, float] тоже самое что int | float
+x: Optional[str] тоже самое что и Optional[str, None] к указанному типу автоматически добавляет None
+x: Any буквально любой тип данных
+x: Final для отметки констант в программе с 3.10 (если мы к перем обьявили Final то послее ее переопред среда покажет
+что перем не должна изменяться)
+a: int, -> int(for return)
+
+from typing import List, Tuple, Dict, Set только с 3.9
+lst: list[int] = [1, 2, 3, '4'] == lst: List[int] = [1, 2, 3, '4']
+addr: tuple[int, str] = (1, '2324') для каждного элемента свйо тип указывать
+addr: tuple[int, ...] = (1,2,3,4)
+world: dict[str(для ключа), int(для значения)] = {'one': 1, 'two': 2}
+persons: set[str] = {'awdawd', 'adwd', 'esf'}
+
+10. виртуальное окружение
+python -m venv venv далее активация установка билиотек и деактивация
+11. копирование и грубокое копирование
+copy копируется индекс изм все copy and deepcopy не изменются при копировании
+12. poetry
+круче pip
+13. big o notation
+O(1), O(log N), O(sqrt(N)), O(N), O(N log N), O(N^2), O(2^N), O(N!)
+14. методы класса, статичесие, обьекта
+15. абстрактные классы, метто классы
+абстрактный класс который содержить один и более абстрактных
+абстрактный метод - обьявленный но неариализованный метод, к примеру в шахматах
+метод move каждая фигура ходит по своему и в каждом классе фигуры метод move
+можно переопределить
+from abc import ABC, abstractmethod
+
+class ChessPiece(ABC):
+    def draw(self):
+        print('Drew a chess piece')
+
+    @abstractmethod
+    def move(self):
+        pass
+
+a = ChessPiece()
+если инстациировать абстрактный класс то мы получим ошибку
+16. ромбовидное наследование MRO
+class X:
+    pass
+class Y:
+    pass
+class Z:
+    pass
+class A(X, Y):
+    pass
+class B(X,Y,Z):
+    pass
+class M(A,B,Z):
+    pass
+print(M.mro())
+# [<class '__main__.M'>, <class '__main__.A'>, <class '__main__.B'>,
+# <class '__main__.X'>, <class '__main__.Y'>, <class '__main__.Z'>,
+# <class 'object'>]
+
+17. тестирование pytest unittest функциональнеы интеграционные, mock, ассерт
+фикстуры - это функции которые вызываются до или после выполнения тестов
+SetUp - это то, что выполняется до теста
+tearDown - то что выполняется после теста
+
+18. SOLID, KIIS, DTY, YAGNI
+#         SOLID
+#   '1. единоответственности single responsibility principle'
+#   '2. принцип открытости и закрытости open-closed principle'
+#   '3. принцип подстановки барбары лисков liskov substitution principle'
+#   '4. принцип разделения интерфельсов interface segregation principle'
+#   '5. принцип инверсии зависимостей dependency inversion principle'
+#         KIIS
+#         DTY
+#         YAGNI
+19. патерны проектирования
+20. lambda анонимная функция
+b = [True, False]
+x = lambda a: f'{b[0]}' if a % len(b) == 0 else f"{b[1]}"
+print(x(1))
+21. множества frozenset({}) and set({})
+хранят уникальные значения в случайном порядке
+элементы которого должны быть хешируемый
+frozenset не изменяемый а set изменяемый
+22. сортировка без сохранения последовательности
+a = [1,1,3,4,5,2,'awd']
+v = list(set(a))
+print(v)
+сортировка с сохранением последовательности
+from collections import OrderedDict
+values = [1,1,3,4,5,2,'awd','awd']
+print(list(OrderedDict.fromkeys(values)))
+23. values = [1,2,3]
+print(', '.join(values)) только со строками
+print(', '.join(map(str, values))) join c целыми числами благодаря map
+24. zip
+a = [5,6,7,8]
+b = [100,200,300,30]
+c = 'qwer'
+rez = zip(a,b,c)
+print(list(rez))
+[(5, 100, 'q'), (6, 200, 'w'), (7, 300, 'e'), (8, 30, 'r')]
+25. class filter(object)
+filter(function or None, iterable) --> filter object
+Return an iterator yielding those items of iterable for while function(item)
+is true. If function is None, return the items than are true.
+a = [51,6,799,8,113,0,10,-10,'wad','']
+b = filter(bool(labmda), a)
+print(list(b))
+[51, 6, 799, 8, 113, 10, -10, 'wad']
+
+
+class Car:
+    def __init__(self, make, model, price):
+        self.make = make
+        self.model = model
+        self.price = price
+        self._discount = 0.25
+
+    def __getattribute__(self, name):
+        if name == 'price':
+            p = super().__getattribute__('price')
+            d = super().__getattribute__('_discount')
+            return p - (p * d)
+        return super().__getattribute__(name)
+
+    def __str__(self):
+        return f'{self.make}{self.model} coast {self.price}'
+
+    def __repr__(self):
+        return f'make={self.make} model={self.model} coast={self.price}'
+
+    def __eq__(self, other):
+        if not isinstance(other, Car):
+            raise ValueError('Cant compare ot type mismatch')
+        return (self.make == other.make and
+                self.model == other.model and
+                self.price == other.price)
+
+    def __ge__(self, other):
+        pass
+
+    def __le__(self, other):
+        pass
+
+
+# car1 = Car('Toyta', 'camry', 7000)
+# car2 = Car('Opel', 'mokka', 5000)
+# car3 = Car('Opel', 'mokka', 5000)
+# car4 = Car('Unnown',' Junk wagon', 14)
+
+car1 = Car('Toyta', 'camry', 7000.2)
+print(car1)
+
+# print(str(car1))
+# print(repr(car2))
+
+dataclass "дкоратор над классом" который содержит переопределение некоторых
+магических методов как __eq__ and __repr__ переопределен метод __init__
+
+from dataclasses import dataclass
+
+Сравнение любого объекта с NaN дает False, даже сравнение NaN с NaN. Однако объект x идентичен самому себе.
+
+@dataclass
+class Car:
+    make: str
+    model: str
+    price: float
+car = Car('BD', 'DFB', 12321)
+print(car)
+
+оператор выбора
+cmd = 'top'
+match cmd:
+    # case 'top' | 'sss' | 'www':
+    case 'top':
+        print('1')
+    case 'sss':
+        print('2')
+    case 'www':
+        print('3')
+    case command: # если переменная комманд не обьявлена то она автоматически создастся -> command = cmd
+        print(f'{command}')
+    case str() as command if 0 <= command <= 9: # простоить переменной строку cmd
+        print(f'{command}')
+    case str(command): # тоже самое что и выше
+        print(f'{command}')
+    case _: # блок default который отрабатывает всегда когда нет совпадения
+        print('4')
+
+cmd = ('awd', '12dasd', 222, 222)
+match cmd:
+    case (str() as first, str() as second, *third) | (_, first, second, *third):
+        #групирующие скобки () or [] допускается использование _ в качестве имени парам которые не исп
+        print(f'{first} {second} {third}')
+    case tuple() as book:
+        print(f'кортеж {book}')
+    case _:
+        print('что-то не то')
+
+request = {'url': '10.0.12.2', 'method': 'post', 'timeout': 10000, 'date': '07-01-2023', 'responsible': 'pasha'}
+
+match request:
+    case {'url': str() as url1, 'method': str(method), **kwargs} if len(kwargs) == 3:
+        print(f'url: {url1} method: {method}')
+    case _:
+        print('awdadad')
+
+import re
+def solve(s):
+    return [len(re.findall(i,s)) for i in ('[A-Z]','[a-z]','\d','[^a-zA-Z0-9]')]
+
+d = {'col1': [1, 2, 3,4,5,'313']}
+print(len(list(d.values())[0]))
+
+def no_ifs_no_buts(a, b):
+    return {a > b: f"{a} is greater than {b}",
+            a < b: f"{a} is smaller than {b}",
+            a == b: f"{a} is equal to {b}"
+            }[True]
+
+def no_ifs_no_buts(a, b):
+    return f"{a} is {['equal to', 'smaller than', 'greater than'][(a < b) + (a > b) + (a > b)]} {b}"
+    если применять условие к списку то нужно делать только так через логические операции условий
+
+def trim(s = "Creating kata is fun", size = 13):
+    return s if len(s) <= size else s[:size if size <= 3 else size-3] + '...', len(s)
+
+slots rect
+
+
+def weather_info (temp):
+    c = convertToCelsius(temp)
+    return '{} {}'.format(c, 'is freezing temperature' if c < 0 else 'is above freezing temperature')
+
+def convertToCelsius (temp):
+  return (temp - 32) * 5 / 9.0
+
+def computer_to_phone(numbers):
+    pad = {
+        "7":"1",
+        "8":"2",
+        "9":"3",
+        "4":"4",
+        "5":"5",
+        "6":"6",
+        "1":"7",
+        "2":"8",
+        "3":"9",
+        "0":"0"
+    }
+    return "".join([pad[number] for number in numbers]) замена значений в строке
+
+def computer_to_phone(numbers):
+    return numbers.translate(str.maketrans('123789', '789123')) тоже самое что и выше
+
+
+abc = "abcdefghijklmnopqrstuvwxyz"
+def keyword_cipher(s, keyword, key=""):
+    for c in keyword + abc:
+        if c not in key:
+            key += c
+    return s.lower().translate(str.maketrans(abc, key))
+
+

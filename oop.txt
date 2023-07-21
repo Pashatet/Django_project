@@ -1,0 +1,679 @@
+1.теория ооп
+все состоит из обьектов, все обьекты участвовали в выполнении задачи но каждый
+был бы обособленным отвечает только за себя и представляет что-то реальное либо
+абстрактное
+
+чертеж это класс, а дом это обьект класса
+класс это новый тип данных, а обьект это представитель класса
+
+2.обьекты, классы, экземпляры
+3.атрибуты(setattr, getattr, delattr, dict)
+
+__doc__ - содержит строку с описанием класса
+__dict__ - содержит набор атрибутов экземпляра класса
+
+Динамически добаляем или изменяем значение класса
+setattr(Point, 'prop', 1) тоже самое что и Point.type_pt = 'dict'
+
+Считывание значение класса
+Point.color если атрибуты не находится возвращается ошибка чтобы избежать ошибки можно использовать
+getattr(Point, 'a', значение которое будет выводиться если атрибута не найдено)
+
+Удалять атрибуты класса
+del Point.prop если атрибута нет то мы получим ошибку
+delattr(Point. 'prop') тоже самое что и выше
+hasattr(Point, 'prop') проверка наличия свойства в классе
+
+каждый метод(имена методов) это атрибут классаи поэтому к ним можно обращаться getattr(пространисво имен, 'само имя метода')
+
+4.инициализация обьектов и аргументов self
+ссылка на определенный обьект класса
+__del__(self) - финализатор класса. вызывается перед уничтожением экземпляра класса
+5.свойства getter,setter,deleter
+6.dunder методы(get, set)
+class Point:
+    def __init__(self, x,y):
+        self._x = x
+        self._y = y
+    #_ просто сигнализирует что данное свойство защищ   ено, но не ограничивает доступ из вне
+pt = Point(1,2)
+print(pt._x, pt._y)
+
+class Point:
+    def __init__(self, x,y):
+        self._x = x
+        self._y = y
+
+    def __checkValue(x)
+        if isinstance(x, (int float)):
+            return True
+        return False
+
+    def set_coord(self, x,y):
+        if Point.__checkValue(x) and Point.__checkValue(y):
+            self._x = x
+            self._y = y
+        else:
+            print('координаты должны быть числами')
+
+    def get_coord(self):
+        return self.__x, self.__y
+
+pt = Point(1,2)
+print(pt._x, pt._y)
+print(pt.__Point__y)
+#обраться к закрытым методам
+
+доплнительный контроль за изменениями атрибутов
+__setattr(self, key, value) - автоматически вызывается при изменении свойств key класса
+__getattribute__(self, item) - автоматически вызывается при получении свойства класса с именем item
+__getattr__(self, item) - автоматически вызывается при получении несущест свйоств item класса
+__delattr__(self, item) - автоматически вызывается при удалении свойств item(не важно сущ оно или нет)
+__slots__ = ['__x', '__y'] - контроль за локальными свойствами экземпляра класса, свйоства могут быть только такие такие как мы прописали
+а если указать свйоство которое уже есть в самом классе то будет ошибка
+чтобы дополнительно защитеть нужно установить метод from accessify impport private, protected
+добавление декотраторами @private @protected
+7. slots - оптимизирует потребление памяти
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+class Point2D:
+    __slots__ = ('x', 'y')
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+
+if __name__ == '__main__':
+    pt2 = Point2D(1, 2)
+    pt2.y = 10
+    print(pt2.__dict__)
+
+8. dunder метод __new__ и __init__
+__new__ вызывается перед созданием обькта класса
+__init__  вызывается после создания обьекта класса
+
+class Point:
+    '''
+    cls ссылается на текущий экземпляр класса в данный момент Point
+    self ссылается на создаваемый экземпляр класса
+    '''
+    def __new__(cls, *args, **kwargs):
+        '''
+        __new__ нужен нам для создания только одного экземпляра класса, два экземплара класса существовать не должны
+        и если мы создаем второй экземпляр класса то он будет ссылаться на на первый экземпляр класса
+        Singleton
+        __instance = None
+        def __new__ (cls, *args, **kwargs):
+            if cls.__instance is None:
+                cls.__instance = super().__new__(cls)
+            return cls.__instance
+            так мы будем контролировать что у нас только один одьект класса
+        '''
+        # когда мы передаем классу point определенный значения они передаются методу __new__
+        print("вызов __new__  для " + str(cls))
+        return super().__new__(cls)
+        # Когда мы вызываем функцию super то получаем ссылку на базовый класс, и через ссылку вызываем магический метод __new__
+        # и он запускает процесс создания экземплара класса и возвращает адрес созданного обьекта
+
+    def __init__(self, x=0, y=0):
+        print('вызов __init__ для ' + str(self))
+        self.x = x
+        self.y = y
+
+
+pt = Point(1,2)
+print(pt)
+9. моносостояние
+class ThreadData:
+    __shared_attrs = {
+        'name': 'thread_1',
+        'data': {},
+        'id': 1
+    }
+
+    def __init__(self):
+        self.__dict__ = self.__shared_attrs
+локальное пространство имен для обьектов class ThreadData едино и для любого количества обьектов создаваться одно и тоже
+локальное пространтсво имен которое оределяется этим словарем
+
+10. полиморфизм на примере @singledispatch
+11. dunder методы str, repr, len, abs
+__str__ - для отображения информации об обьекте класса для пользователей(например для функций print, str)
+__repr__ - для отображения информации об обьекте класса в режите отладки(для разработчиков)
+
+class Cat:
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return f'{self.__class__}: {self.name}'
+
+    def __str__(self):
+        return f'{self.name}'
+
+__len__ - позволяет применять функцию len() к экземпляру класса
+__abs__ - позволяет применять функцию abs() к экземпляру класса
+
+class Point:
+    def __init__(self, *args):
+        self.coord = args
+
+    def __len__(self):
+        return len(self.coord)
+
+    def __abs__(self):
+        return list(map(abs, self.coord))
+
+p = Point(-12,23,4)
+print(abs(p))
+
+12. dunder методы bool, bytes, float, int
+__len__() - вызывается функцией bool(), если не отпределен магический метод __bool__()
+__bool__() - вызывается в приоритетном порядке функцией bool() обязательно должен return -> bool
+применяется в основном в условных операторах. bool пользуются чаще чем len
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __len__(self):
+        print('__len__')
+        return self.x * self.y
+
+    def __bool__(self):
+        print('__bool__')
+        return self.x == self.y
+
+p1 = Point(0, 2)
+p2 = Point(1, 2)
+
+print(bool(p1))
+# print(p1.__dict__ == {'x': 1, 'y': 2})
+# print(hash(p1), hash(p2), sep='\n')
+
+13. dunder методы pow, reversed, truediv
+14. dunder методы next, iter, call
+c помощью __call__ мы можем вызывать экземпляр класса подобно функциям, каждый экземпляр будет уникальный
+class Counter:
+    def __init__(self):
+        self.__counter = 0
+
+    def __call__(self, step=1,  *args, **kwargs):
+        print('__call__')
+        self.__counter += step
+        return self.__counter
+
+
+c = Counter()
+c2 = Counter()
+c()
+c(2)
+res = c(10)
+res2 = c2(-5)
+print(res, res2)
+
+место замыкний функций мы можем реализовывать класс с магическим методом call
+
+class StripChars:
+    def __init__(self, chars):
+        self.__counter = 0
+        self.__chars = chars
+
+    def __call__(self, *args, **kwargs):
+        if not isinstance(args[0], str):
+            raise TypeError('Аргумент должен быть строкой')
+        return args[0].strip(self.__chars)
+
+
+c = StripChars('!?:,. ')
+res = c(' asda')
+print(res)
+
+реализация декораторов с помощью класса
+
+import math
+
+
+class Derivate:
+    def __init__(self, funk):
+        self.__fn = funk
+
+    def __call__(self, x, dx=0.0001, *args, **kwargs):
+        return (self.__fn(x+ dx) - self.__fn(x)) / dx
+
+@Derivate
+def df_sin(x):
+    return math.sin(x)
+
+
+# df_sin = Derivate(df_sin) так мы в лоб вызвали наш класс, а можно декоратором
+print(df_sin(math.pi/3))
+
+15. контекстный менеджер в классе enter, exit
+16. dunder методы add, sub, mul, truediv
+__add__ - для операций сложения
+
+class Clock:
+    __DAY = 86400
+
+    def __init__(self, seconds: int):
+        if not isinstance(seconds, int):
+            raise TypeError('Секунды должны бить целым числом')
+        self.seconds = seconds % self.__DAY
+
+    @classmethod
+    def __get_formatted(cls, x):
+        return str(x).rjust(2, '0')
+
+    # other ссылается на c2 = Clock(12221) и делает проверку
+    def __add__(self, other):
+        if not isinstance(other, (int, Clock)):
+            raise ArithmeticError('Правый операнд должен быть int or Clock')
+        sc = other
+        if isinstance(other, Clock):
+            sc = other.seconds
+        return Clock(self.seconds + sc)
+
+    def __radd__(self, other):
+        return self + other
+
+    def __iadd__(self, other):
+        if not isinstance(other, (int, Clock)):
+            raise ArithmeticError('Правый операнд должен быть int or Clock ')
+        sc = other
+        if isinstance(other, Clock):
+            sc = other.seconds
+        self.seconds += sc
+        return self
+
+    def __mod__(self, other):
+        if not isinstance(other, (int, Clock)):
+            raise ArithmeticError('Правый операнд должен быть int or Clock')
+        sc = other
+        if isinstance(other, Clock):
+            sc = other.seconds
+        return Clock(self.seconds + sc)
+
+    def __rmod__(self, other):
+        return self % other
+
+    def __imod__(self, other):
+        if not isinstance(other, (int, Clock)):
+            raise ArithmeticError('Правый операнд должен быть int or Clock ')
+        sc = other
+        if isinstance(other, Clock):
+            sc = other.seconds
+        self.seconds %= sc
+        return self
+
+    def __str__(self):
+        s = self.seconds % 60
+        m = (self.seconds // 60) % 60
+        h = (self.seconds // 3600) % 24
+        return f'{self.__get_formatted(h)}:{self.__get_formatted(m)}:{self.__get_formatted(s)}'
+
+
+if __name__ == '__main__':
+    c1 = Clock(20)
+    c2 = Clock(121)
+    с3 = Clock(223)
+    c1 %= 100
+    print(c1)
+
+__sub__ - для операций вычитания
+__mul__ - для операций умножения
+__truediv__ - для операций деления
+__floordiv__ - для операций y //= y
+__mod__ - для операций x %= y
+17. работа с атрибутами hasattr, getattr
+
+18. dunder методы getitem, setitem, delitem
+__getitem__(self, item) - получение значения по ключу item
+__setitem__(self, key, value) - запись значения value по ключу key
+__delitem__(self, key) - удаление элемента по ключу key
+
+class Student:
+    def __init__(self, name, marks):
+        self.name = name
+        self.marks = list(marks)
+
+    def __getitem__(self, item):
+        return (self.name and self.marks[item])
+
+    def __setitem__(self, key, value):
+        if not isinstance(key, int) or key < 0:
+            raise TypeError('индекс должен быть целымнеорицательным числом')
+
+        if key >= len(self.marks):
+            off = key + 1 - len(self.marks)
+            self.marks.extend([None]*off)
+            self.marks[key] = value
+
+    def __delitem__(self, key):
+        if not isinstance(key, int):
+            raise TypeError('индекс должен быть целымнеорицательным числом')
+
+        del self.marks[key]
+
+s1 = Student('pasha', [2, 3, 4, 5])
+s1[10] = 10
+del s1[6]
+del s1[8]
+del s1[7]
+print(s1.marks)
+
+
+19. наследование и перегрузка методов
+20. isinstance, issubclass, getsizeof
+issubclass(int, object) - выведется что int class который наследуется от object
+21. переполнение методов родителя
+22. дата классы @dataclas
+23. множественное наследование mro, vars, callable, super
+24. абстрактные методы ABCMeta, abstractmethod
+25. декотораторы классов
+26. динамическое редактирование класса
+27. метаклассы
+User = type('User' - название класса, (PasswordMixin, BaseUser) - от чего наследуемсся, {'password': 'xxx'} -
+атрибуты словаря(ключ название атрибута и метода) значение) динамически создаем класс
+специальный класс который создает другие классы
+class Meta(type): # хотим создать мета класс наследуемся от type
+    def __new__(cls, name, bases, attrs):
+        '''
+        передаем 4 параметра 1. наш метакласс
+        :param name: название метакласса
+        :param bases: кортеж базовых классов для наследования
+        :param attrs: атрибуты класса в сиде словаря
+        '''
+        attrs['custom_field'] = 'New Value'
+        return super().__new__(cls, name, bases, attrs)
+
+
+class User(metaclass=Meta): # вместо списка классов от которых он наследуется используется ключевой параметр meta
+    def __init__(self):
+        print('Constructor')
+        super().__init__()
+
+
+28. класс который изменяет время выполнения функции используя with
+29. декоторар в классе который изменяет время выполнения функции
+30. property в связке с psutil и генераторами
+class Person:
+    def __init__(self, name, old):
+        self.__name = name
+        self.__old = old
+
+    # третий спороб реализации property
+    @property
+    def old(self):
+        return self.__old
+
+    @old.setter
+    # имена set and get должны совпадать
+    def old(self, old):
+        self.__old = old
+
+    @old.deleter
+    def old(self):
+        del self.__old
+
+    # первый пример реализации
+    # old = property(get_old, set_old)
+    # второй пример реализации
+    # old = property()
+    # old = old.setter(set_old)
+    # old = old.getter(get_old)
+
+if __name__ == '__main__':
+    pt = Person('pasha', 2)
+    # обращение через гетеры и гетеры
+    # pt.set_old(24)
+    # print(pt.get_old())
+    # обращение через property. если в классе создан атрибут свойства (old = property(get_old, set_old)) то в
+    # первую очередь он выбирается он, если у нас нет атрибута свойства то приоритет будет на другой, к примеру если мы
+    # создадим экземпляр класса с атрибутом (pt.__dict__['old'] = 'old in object pt') то данные будет подтягиваться оттуда
+
+    # pt.old = 35
+    # print(pt.old, pt.__dict__)
+
+31. анатации
+32. дескрипторы
+типы дискрипторов
+Non-data descriptor(дескриптор не данных) только считывать значения и имеет тотже приоритет доступа что и атрибуты класса
+class A:
+    def __get__(self, instance, owner)
+        return ...
+
+data discriptor(Дискриптор данных)
+class B:
+    def __get__(self, instance, owner)
+        return ...
+    def __set__(self, instance, value)
+    def __del__(self)
+
+как нужно реализвывать
+class ReadIntX:
+    def __set_name__(self, owner, name):
+        self.name = '_x'
+
+    def __get__(self, instance, owner):
+        return getattr(instance, self.name)
+
+class Integer:
+    @classmethod
+    def verify_coord(cls, coord):
+        if type(coord) != int:
+            raise TypeError('Координата должна быть целым числом')
+
+    def __set_name__(self, owner, name):
+        self.name = '_' + name
+
+    def __get__(self, instance, owner):
+        #return instance.__dict__[self.name]
+        return getattr(instance, self.name)
+    def __set__(self, instance, value):
+        # выведется что 3 раза сработал setter
+        # print(f'__set__: {self.name} = {value}')
+        self.verify_coord(value)
+        setattr(instance, self.name, value) так правильнее чем обращение к колекции dict
+        #instance.__dict__[self.name] = value
+
+
+class Point3D:
+    x = Integer()
+    y = Integer()
+    z = Integer()
+
+    xr = ReadIntX() - атрибут дискриптора не данных
+
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+
+
+p = Point3D(1,2,3)
+print(p.__dict__)
+
+как не нужно реализовывать
+class Point3D:
+    def __init__(self, x, y, z):
+        self._x = x
+        self._y = y
+        self._z = z
+
+    @classmethod
+    def verify_coord(cls, coord):
+        if type(coord) != int:
+            raise TypeError('Координата должна быть целым числом')
+
+    @property
+    def x(self):
+        return self._x
+
+    @x.setter
+    def x(self, coord):
+        self.verify_coord(coord)
+        self._x = coord
+
+    @property
+    def y(self):
+        return self._y
+
+    @y.setter
+    def y(self, coord):
+        self.verify_coord(coord)
+        self._y = coord
+
+    @property
+    def z(self):
+        return self._z
+
+    @z.setter
+    def z(self, coord):
+        self.verify_coord(coord)
+        self._z = coord
+
+p = Point3D(1,2,3)
+p.xr = 5 - создастся в локальной области новое свойством с именем xr
+print(p.__dict__)
+
+
+eq, ne, lt, le, gt, ge
+__eq__ - для равенств ==
+class Clock:
+    __DAY = 86400
+
+    def __init__(self, seconds: int):
+        if not isinstance(seconds, int):
+            raise TypeError('Секунды должны бить целым числом')
+        self.seconds = seconds % self.__DAY
+
+    def __eq__(self, other):
+        if not isinstance(other, (int, Clock)):
+            raise TypeError('Операнд справа должен иметь тип int or Clock')
+        sc = other if isinstance(other, int) else other.seconds
+        return self.seconds ==sc
+
+
+c1 = Clock(1000)
+c2 = Clock(1000)
+print(c1==c2)
+
+__ne__ - для равенств !=
+если магический метод не реализован то он будет пытаться сравнивать не с1!=с2 а not(c1==c2)
+__lt__ - для оператора меньше <
+__le__ - для оператора меньше или равно <=
+__gt__ - для оператора больше >
+если магический метод __lt__ не реализован то он будет пытаться сравнивать не с1>с2 а c2>c1 операнды меняет местами
+__ge__ - для оператора больше или равно >=
+по аналогии работает
+
+__hash__
+словарь хранит ключи в ввиде колекции (хэш ключа, ключ) и поиск соответственно идет по хэшу ключа потомучто существует
+быстрый алгоритм поиска по хэшу а затем для равных хэшей если такие существуют отбираются записи с указанным в ключе
+обьекте. если обьекты a==b То у их раны и хеши, но если равны хеши hesh(a)==hesh(b) то это не гарантирует что обьекты равны
+если хеши не равны то и обьекты тоже не равны.
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __eq__(self, other):
+        if isinstance(other, Point):
+            return (self.x == other.x and
+                    self.y == other.y)
+        return NotImplemented
+
+    def __hash__(self):
+        return hash((self.x, self.y))
+
+
+p1 = Point(1, 2)
+p2 = Point(1, 2)
+
+d = {}
+d[p1] = 1
+d[p2] = 2 #этим мы показали что хеши ключей p1 b p2 равны и запишется только последний ключ
+print(d)
+# print(p1.__dict__ == {'x': 1, 'y': 2})
+# print(hash(p1), hash(p2), sep='\n')
+
+
+
+
+нпс алгоритмы что за звери
+метод двух указателей
+def remove_dublicates(nums):
+    first_pointer, second_pointer = 0, 0
+
+    while second_pointer < len(nums):
+        wmulhile second_pointer < len(nums) - 1 and nums[second_pointer] == nums[second_pointer + 1]:
+            second_pointer += 1
+
+        nums[first_pointer] = nums[second_pointer]
+        first_pointer += 1
+        second_pointer += 1
+
+    return nums[:first_pointer]
+
+
+print(remove_dublicates([1, 1, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 6, 7]))
+
+
+from collections import OrderedDict, ChainMap, Counter, defaultdict, deque, namedtuple
+
+# OrderedDict Нужен для действий со словарем где необходим порядок элементов например сравление с учетом поряжка, перестановки элементов
+# с сохранением порядка. Занимает в 2 раза больше памяти чем обычный словарь!
+
+# ChainMap нужен для логического обьединения словарей, он их не копирует, нужен для поиска информации но при изменениях
+# меняется первый словарь изменения нужно менять словари
+
+# Counter считает только хешибол(обьект у которого есть хеш и этот хеш за время жизни никогда не меняется) обьекты
+
+# defaultdict нужен для создания словаря со значенем по умолчанию. значение подставляется при обращении к несуществующему ключу
+
+# deque потокобезопасная(два разных потока не возьмут один и тотже элеемни и не перезапишут его)
+# быстро оперирует листами. лист отличается тем, что он может оперировать элементами из любой части массива, а не только с начала и конца
+
+# namedtuple нужен для создания структуры данных, нечто среднее между стандартными типами и самописными классами
+# не изменяемый, позволяет обращаться по имени атрибута, позволяет использовать индексы
+
+first = {1: 1, 2: 2, 3: 3}
+first2 = {4: 4, 5: 5, 6: 6}
+second = {1: 1, 2: 2, 3: 3}
+
+order1 = OrderedDict(first)
+order2 = OrderedDict(second)
+# order1.move_to_end(3, last=False)
+# print(order1, first == second, order1==order2)
+
+chain = ChainMap(first, first2)
+# print(chain)
+
+counter = Counter('Hello')
+# print(counter)
+# print(counter.most_common(1))
+
+a_dict = defaultdict(int)
+for char in 'hello':
+    a_dict[char] += 1
+
+# print(sorted(a_dict.items(), key=lambda x:x[1],reverse=True))
+a_deque = deque()
+a_deque.append(1)
+# print(a_deque)
+a_deque.appendleft(2)
+# print(a_deque)
+
+Cat = namedtuple('Cat', 'name age color')
+tom = Cat('Tom', 4, 'yellow')
+print(tom)
+
+списковые включения, метод резолушен order, виды наследования
+getbootstrap.com

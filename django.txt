@@ -1,0 +1,72 @@
+django-admin startproject name_project
+python3 manage.py runserver
+python3 manage.py startapp name_app
+
+from django.http import HttpResponse При помощи класса мы можем отправить ответ пользователю из нашего представления
+
+в приложении создаем файл urls.py для расширения базовой URLconf конфигом URL
+from django.urls import path
+from . import views as views_horoscope
+
+urlpatterns = [
+    # path('leo/', views_horoscope.leo),
+    # path('aries/', views_horoscope.aries),
+    # path('taurus/', views_horoscope.taurus),
+
+    Динамический URL Django тоже самое что выше но динамически
+    path('<sing_zodiac>', views_horoscope.get_info_about_sign_zodiac),
+    # для динамического нужно создать еще другое представление views.py
+
+    def get_info_about_sign_zodiac(request, sing_zodiac):
+        return HttpResponse(sing_zodiac)
+]
+
+в файле сайта urls.py делаем это
+from django.contrib import admin
+from django.urls import path, include
+from week_days import views as views_week_days
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('horoscope/', include('horoscope.urls')),
+
+    ниже тоже самое но нужно применять к каждому urls
+    path('week_days/monday', views_week_days.monday),
+    path('week_days/tuesday', views_week_days.tuesday),
+    ]
+
+Конвертеры работают сверху вниз ['int': IntConverter(), 'path': PathConverter(), 'slug': SlugConverter(), 'str':
+StringConverter(), 'uuid']. Можно делать свои конвертеры
+urlpatterns = [
+    path('<int:sign_of_zodiac>/', views_horoscope.get_info_about_sign_zodiac_by_number),
+    path('<str:sign_of_zodiac>/', views_horoscope.get_info_about_sign_zodiac),
+]
+
+
+redirect - способ перемещения пользователя с одной веб-страницы на другую, причем новая страница может находиться в том
+же самом приложении или быть на другой страниц.
+from django.http import HttpResponseRedirect
+Код статуса, который будет у запроса, выполненного при помощи класса HttpResponseRedirect, это 302 Found.
+
+reverse - это удобный инструмент, который позволяет генерировать URL-адреса на основе имен URL-адресов в вашем Django-приложении.
+from django.urls import reverse
+urlpatterns = [
+    path('<int:sign_zodiac>', views.get_info_about_sign_zodiac_by_number),
+    path('<str:sign_zodiac>', views.get_info_about_sign_zodiac, name='horoscope-name'),
+]
+reverse(viewname, urlconf=None, args=None, kwargs=None, current_app=None)
+viewname - это строка, содержащая имя URL-адреса, который вы хотите создать. Это обязательный аргумент.
+
+urlconf - это необязательный аргумент, позволяющий задать имя модуля с настройками URL-адресов, если вы хотите создать ссылку на маршрут из другого модуля с настройками URL-адресов, отличного от текущего.
+
+args - это необязательный аргумент, представляющий список или кортеж позиционных аргументов для передачи в URL-адрес. Например, если ваш URL-адрес ожидает значение идентификатора (id), вы можете передать его как аргумент в функцию reverse:
+
+reverse('my_view', args=[1])
+Если вы не передаете значение для позиционного аргумента в функцию reverse, его значение будет None.
+
+kwargs - это необязательный аргумент, представляющий словарь именованных аргументов для передачи в URL-адрес. Например, если ваш URL-адрес ожидает значение параметра (slug), вы можете передать его как именованный аргумент в функцию reverse:
+
+reverse('my_view', kwargs={'slug': 'hello-world'})
+Если вы не передаете значение для именованного аргумента в функцию reverse, его значение будет None.
+
+current_app - это необязательный аргумент, позволяющий задать имя текущего приложения для правильного разрешения имен URL-адресов, если вы используете функцию reverse в контексте другого приложения.

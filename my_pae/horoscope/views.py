@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
-
+from django.template.loader import render_to_string
 # Create your views here.
 # def leo(request):
 #     return HttpResponse('LEO')
@@ -37,10 +37,15 @@ zodiac_element = {
 
 
 def get_info_about_sign_zodiac(request, sign_of_zodiac: str):
-    description = signs.get(sign_of_zodiac)
-    if description:
-        return HttpResponse(signs[sign_of_zodiac.lower()])
-    return HttpResponseNotFound(f"Неизвестный знак зодиака - {sign_of_zodiac}")
+    # description = signs.get(sign_of_zodiac)
+    # первыйвариант привязать шаблон
+    # response = render_to_string('horoscope/info_zodiac.html')
+    # return HttpResponse(response)
+    # второй вариант привязать шаблон
+    return render(request, 'horoscope/info_zodiac.html')
+    # if description:
+    #     return HttpResponse(signs[sign_of_zodiac.lower()])
+    # return HttpResponseNotFound(f"Неизвестный знак зодиака - {sign_of_zodiac}")
 
 
 def get_info_about_sign_zodiac_by_number(request, sign_of_zodiac: int):

@@ -1,0 +1,31 @@
+class Sphere:
+    def __init__(self, radius, mass):
+        self.radius, self.mass = radius, mass
+        self.area = __import__('math').pi*4*radius**2
+        self.volume = self.area/3*radius
+        self.density = mass/self.volume
+    _get = lambda x: lambda self, decimal=5: round(getattr(self, x), decimal)
+    get_surface_area = _get('area')
+    get_density = _get('density')
+    get_radius = _get('radius')
+    get_volume = _get('volume')
+    get_mass = _get('mass')
+
+
+def validate_pin(pin):
+    return len(pin) in [4] and pin.isdigit()
+print(validate_pin("1234")) --> True
+
+def people_with_age_drink(age):
+    text = 'drink whisky'
+    match age:
+        case age if age in range(14):
+            text = 'drink toddy'
+        case age if age in range(18):
+            text = 'drink coke'
+        case age if age in range(21):
+            text = 'drink beer'
+    return text
+
+def people_with_age_drink(age):
+    return ["drink toddy", "drink coke", "drink beer", "drink whisky"][(age >= 21) + (age > 17) + (age > 13)]
