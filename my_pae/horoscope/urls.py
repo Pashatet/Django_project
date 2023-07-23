@@ -21,4 +21,5 @@ urlpatterns = [
     path('<str:sign_of_zodiac>/', views.get_info_about_sign_zodiac, name='horoscope-name'),
     path('<my_upper:sign_of_zodiac>/', views.get_my_upper_convertes),
 
+
 ]

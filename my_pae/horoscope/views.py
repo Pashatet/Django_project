@@ -42,10 +42,10 @@ def get_info_about_sign_zodiac(request, sign_of_zodiac: str):
     # первыйвариант привязать шаблон
     # response = render_to_string('horoscope/info_zodiac.html')
     # return HttpResponse(response)
-    # второй вариант привязать шаблон
-    discription = signs.get(sign_of_zodiac)
+    # второй вариант привязать шаблонc
+    description = signs.get(sign_of_zodiac)
     data = {
-        'discription_zodiak': discription
+        "signs": description
     }
     return render(request, 'horoscope/info_zodiac.html', context=data)
     # if description:
@@ -63,10 +63,11 @@ def get_info_about_sign_zodiac_by_number(request, sign_of_zodiac: int):
 
 
 def index(request):
-    data = {
-        "signs": signs
+    zodiacs = list(zodiac_element)
+    context = {
+        "zodiacs": signs
     }
-    return render(request, 'horoscope/info_zodiac.html', context=data)
+    return render(request, 'horoscope/index.html', context=context)
 
 
 def type_index(request):

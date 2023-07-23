@@ -5,6 +5,9 @@
     <title>Меню</title>
 </head>
 <body>
-
+    <ul>{% for item in zodiacs %}
+            <li><p>{{ item }}</p></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
