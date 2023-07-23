@@ -10,6 +10,7 @@ register_converter(converters.UpperConvertor, 'my_upper')
 
 urlpatterns = [
     path('', views.index),
+    path('people/', views.get_info_about_people),
     path('<my_date:sign_of_zodiac>', views.get_my_date_converters),
     path('<yyyy:sign_of_zodiac>', views.get_yyyy_converters),
     path('type/', views.type_index),
@@ -19,4 +20,5 @@ urlpatterns = [
     path('<my_list:sign_of_zodiac>/', views.get_my_list_converters),
     path('<str:sign_of_zodiac>/', views.get_info_about_sign_zodiac, name='horoscope-name'),
     path('<my_upper:sign_of_zodiac>/', views.get_my_upper_convertes),
+
 ]

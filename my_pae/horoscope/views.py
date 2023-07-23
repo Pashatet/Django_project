@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
 from django.template.loader import render_to_string
+
 # Create your views here.
 # def leo(request):
 #     return HttpResponse('LEO')
@@ -42,7 +43,11 @@ def get_info_about_sign_zodiac(request, sign_of_zodiac: str):
     # response = render_to_string('horoscope/info_zodiac.html')
     # return HttpResponse(response)
     # второй вариант привязать шаблон
-    return render(request, 'horoscope/info_zodiac.html')
+    discription = signs.get(sign_of_zodiac)
+    data = {
+        'discription_zodiak': discription
+    }
+    return render(request, 'horoscope/info_zodiac.html', context=data)
     # if description:
     #     return HttpResponse(signs[sign_of_zodiac.lower()])
     # return HttpResponseNotFound(f"Неизвестный знак зодиака - {sign_of_zodiac}")
@@ -58,10 +63,10 @@ def get_info_about_sign_zodiac_by_number(request, sign_of_zodiac: int):
 
 
 def index(request):
-    zodiacs = ''.join(
-        f'<li> <a href={reverse("horoscope-name", args=[x])}> {x.title()} </a> </li>' for x in list(signs))
-    rez = f'<h2><ul>{zodiacs}</ul></h2>'
-    return HttpResponse(rez)
+    data = {
+        "signs": signs
+    }
+    return render(request, 'horoscope/info_zodiac.html', context=data)
 
 
 def type_index(request):
@@ -90,8 +95,31 @@ def get_yyyy_converters(request, sign_of_zodiac):
 def get_my_float_converters(request, sign_of_zodiac):
     return HttpResponse(f'Вы передали нецелое число - {sign_of_zodiac}')
 
+
 def get_my_list_converters(request, sign_of_zodiac):
     return HttpResponse(f"{sign_of_zodiac}")
 
+
 def get_my_upper_convertes(request, sign_of_zodiac):
     return HttpResponse(f"{sign_of_zodiac}")
+
+
+people = [
+    {'name': 'Жанна Ивановна Бобылева', 'age': 28, 'phone': '+72609577301'},
+    {'name': 'Спиридон Феликсович Алексеев', 'age': 48, 'phone': '8 445 133 42 50'},
+    {'name': 'Лыткина Зоя Рубеновна', 'age': 34, 'phone': '84061070300'},
+    {'name': 'Олимпиада Святославовна Петухова', 'age': 70, 'phone': '8 740 992 96 95'},
+    {'name': 'Лазарева Нина Кирилловна', 'age': 67, 'phone': '89040731989'},
+    {'name': 'Каллистрат Ильич Ширяев', 'age': 63, 'phone': '+7 418 298 8976'},
+    {'name': 'Евсеев Любосмысл Чеславович', 'age': 47, 'phone': '83111461302'},
+    {'name': 'Прохор Харламович Артемьев', 'age': 47, 'phone': '+77827445919'},
+    {'name': 'Кондрат Игнатьевич Ершов', 'age': 35, 'phone': '+7 419 594 39 00'},
+    {'name': 'Ипат Власович Ильин', 'age': 47, 'phone': '88004779773'}
+]
+
+
+def get_info_about_people(request):
+    data = {
+        "peoples": people
+    }
+    return render(request, 'horoscope/people.html', context=data)
