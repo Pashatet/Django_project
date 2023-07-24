@@ -9,7 +9,7 @@ register_converter(converters.SplitConvertor, 'my_list')
 register_converter(converters.UpperConvertor, 'my_upper')
 
 urlpatterns = [
-    path('', views.index),
+    path('', views.index, name='horoscope-index'),
     path('people/', views.get_info_about_people),
     path('<my_date:sign_of_zodiac>', views.get_my_date_converters),
     path('<yyyy:sign_of_zodiac>', views.get_yyyy_converters),

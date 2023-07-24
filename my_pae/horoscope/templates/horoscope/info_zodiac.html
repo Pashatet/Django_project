@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %} Title {% endblock %}
+
+{% block content%}
+
+{% include 'includes/navbar.html' %}
+
     <h1>Приложение гороскоп</h1>
-    <h2>{{ signs }}</h2>
-</body>
-</html>
+    {% if signs is None%}
+        <h2>Неверный знак задиака - {{ signs|upper }}</h2>
+    {% else %}
+        <h2>{{ signs }}</h2>
+    {% endif %}
+{% endblock %}
