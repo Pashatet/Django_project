@@ -45,7 +45,8 @@ def get_info_about_sign_zodiac(request, sign_of_zodiac: str):
     # второй вариант привязать шаблонc
     description = signs.get(sign_of_zodiac)
     data = {
-        "signs": description
+        "signs": description,
+        "description":description,
     }
     return render(request, 'horoscope/info_zodiac.html', context=data)
     # if description:

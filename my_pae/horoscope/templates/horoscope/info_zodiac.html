@@ -1,12 +1,24 @@
 {% extends 'base.html' %}
+<!--добавляем статические стили-->
+{% load static %}
+<!--добавляем свой фильтр-->
+{% load my_filte %}
 
+
+{% block css_additional %}
+<link rel="stylesheet" href="{% static 'horoscope/css/info.css' %}">
+
+
+{% endblock %}
 {% block title %} Title {% endblock %}
 
 {% block content%}
 
 {% include 'includes/navbar.html' %}
 
-    <h1>Приложение гороскоп</h1>
+    <h1>{{description|split|first}}</h1>
+
+
     {% if signs is None%}
         <h2>Неверный знак задиака - {{ signs|upper }}</h2>
     {% else %}
