@@ -70,3 +70,47 @@ reverse('my_view', kwargs={'slug': 'hello-world'})
 Если вы не передаете значение для именованного аргумента в функцию reverse, его значение будет None.
 
 current_app - это необязательный аргумент, позволяющий задать имя текущего приложения для правильного разрешения имен URL-адресов, если вы используете функцию reverse в контексте другого приложения.
+
+
+
+
+
+
+pip install ipython - получения подсказок в shell console
+pip install django-extensions - Для просмотра sql запросов при работе с ORM
+python manage.py shell_plus --print-sql новый интерфейс orm
+
+
+from django.db.models import Q можно добавлять условия в вильтрацию
+Класс.object.filte(Q(имя поля) |(or) &(and) Q(имя поля)) операторы с фильтра можно тоже применять
+Класс.object.filte(Q(имя поля) |(or) &(and) ~(отрицание)Q(имя поля))  , означает союз AND
+
+save() - сохранение изменений в бд
+delete() - удаление обьекта в таблице
+Класс.object.get(имя поля) - получение данных по опред пораметру, выводится только одно значение
+Класс.object.filte(имя поля)[=, __gt == >, __lt == <, __gte == >=, __lte == <=, __isnull=(False or True)] - получение
+данных по опред пораметру, выводится несколько значений
+Класс.object.filte(имя поля)[__contains='значение'] - выведет записи которые содержат, чувствителен к регистру
+Класс.object.filte(имя поля)[__icontains='значение'] - выведет записи которые содержат, не чувствителен к регистру
+Класс.object.filte(имя поля)[__startswith='значение']
+Класс.object.filte(имя поля)[__endswith='значение']
+Класс.object.filte(id__in=[3,5,6])
+
+
+Класс.object.exclude(имя поля) - получаем запись значение которой не равняется условию
+Movie.objects.create(name='Avatar 2', rating = 95) метод save() вызывать не нужно
+
+
+
+python3 manage.py shell консоль для django где подключается наш проект и переменные окружения
+обращаться к проекту movi_app
+>>> from movie_app.models import Movie
+>>> a = Movie(name='Matrix', rating=85)
+>>> a
+<Movie: Movie object (None)>
+>>> a.save()
+
+
+импортировать метод для простотра sql
+>>> from django.db import connection
+>>> connection.queries
