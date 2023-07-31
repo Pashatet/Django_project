@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.db.models import F, Sum, Max, Min, Count, Avg
+from django.db.models import F, Sum, Max, Min, Count, Avg, Value
 from .models import Movie
 
 
@@ -8,7 +8,12 @@ def show_all_movie(request):
     # movies = Movie.objects.all()
     # movies = Movie.objects.order_by('name')
     # для полей с типом данных Null можно сделать сортировка через метод F asc - по возростанию desc - убывание nulls_[last or first]=True
-    movies = Movie.objects.order_by(F('year').asc(nulls_last=True))
+    # movies = Movie.objects.order_by(F('year').asc(nulls_last=True))
+    # позволяет добавлять данные в бд без ее изменения
+    movies = Movie.objects.annotate(
+        true_bool=Value(True),
+        new_budget=F('budget')+100,
+        false_bool=Value(False),)
     # Альтернативный спосов запистаь данные в столбец slug
     # Movie.objects.get(id=2).save() альпернативный вариант но так нужно сделать для каждой записи
     # for movie in movies:
