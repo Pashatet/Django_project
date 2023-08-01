@@ -5,14 +5,31 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 
+# метод для волидирования полей
+from django.core.validators import MaxValueValidator,MinValueValidator
+
 # from transliterate import translit
 
 # Create your models here.
+
+
+class Director(models.Model):
+    first_name = models.CharField(max_length=100)
+    director = models.CharField(max_length=100, default='top player')
+    director_email = models.EmailField(default='top_player@top.gun')
+
+
+    def __str__(self):
+        return f'{self.first_name} {self.director} {self.director_email}'
+
 class Movie(models.Model):
     name = models.CharField(max_length=40)
-    rating = models.IntegerField()
+    rating = models.IntegerField(validators=[MinValueValidator(1),
+                                             MaxValueValidator(100)])
     year = models.IntegerField(null=True, blank=True) #blank для хранения пустых значений в поле admin
     budget = models.IntegerField(default=1000000)
+
+
     slug = models.SlugField(default='', null=False, db_index=True)
     # Choices field https://docs.djangoproject.com/en/4.0/ref/models/fields/#field-choices применяется когда у нас маленький выбор значений
     EURO = 'EUR'
