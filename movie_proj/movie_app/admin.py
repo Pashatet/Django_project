@@ -1,5 +1,5 @@
 from django.contrib import admin, messages
-from .models import Movie, Director
+from .models import Movie, Director, Actor
 from django.db.models import QuerySet  # для анатации QuerySet
 
 
@@ -27,23 +27,24 @@ class RatingFilter(admin.SimpleListFilter):
 # Register your models here.
 
 admin.site.register(Director)
+admin.site.register(Actor)
 
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
     # добавление в пустую форму опеределенных полей через поле fields
     # fields = ['name','rating']
-    exclude = ['slug'] # исключение опеределенных полей с пустой формы
+    # exclude = ['slug'] # исключение опеределенных полей с пустой формы
     readonly_fields = ['year'] # запретить пользователю редактировать опеределенные поля в пустой форме
-    list_display = ['name', 'rating', 'year', 'budget', 'rating_status', 'currency']
+    list_display = ['name', 'rating', 'year', 'budget', 'rating_status', 'director']
     #     добавляем пользователю редоктировать поля имя первого поля не указываем т.к он ссылочный и по нему мы переходим
 
-    list_editable = ['rating', 'year', 'budget', 'currency']
+    list_editable = ['rating', 'year', 'budget', 'director']
     # создание автоматического slug
     prepopulated_fields = {'slug': ('name',)}
 
     # ordering = ['rating']
-    list_per_page = 5  # колисечтво выводимых результатов в таблице
+    list_per_page = 5  # количество выводимых результатов в таблице
 
     # регистрацию бд можно сделать через декоратор
     # admin.site.register(Movie, MovieAdmin)
@@ -53,6 +54,8 @@ class MovieAdmin(admin.ModelAdmin):
     search_fields = ['name']
     # добавление фильтрации
     list_filter = ['name', 'currency', RatingFilter]
+    # добавление горизонтального фильтра
+    filter_horizontal = ['actors']
 
     @admin.display(ordering='name',
                    description='Status')  # метод для создания вычисляемых полей. description делает название поля автоматом берется название метода rating_status
