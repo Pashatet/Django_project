@@ -8,4 +8,18 @@
     <h3>Год - {{ movie.year }}</h3>
     <h3>Бюджет - {{ movie.budget }}</h3>
     <h3>Рейтинг - {{ movie.rating }}</h3>
+<hr>
+<h3>Информация о режисере</h3>
+<h3>Имя - {{movie.director.first_name}}</h3>
+<h3>Фамилия - {{movie.director.director}}</h3>
+<h3>Почка - {{movie.director.director_email}}</h3>
+<hr>
+<h3>Список актеров</h3>
+<ul>
+        {% for actor in movie.actors.all %}
+        <li>
+            Актер - {{actor}}
+        </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
