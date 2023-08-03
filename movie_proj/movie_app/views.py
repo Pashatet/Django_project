@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.db.models import F, Sum, Max, Min, Count, Avg, Value
-from .models import Movie, Director
+from .models import Movie, Director, Actor
 
 
 # Create your views here.
@@ -46,4 +46,18 @@ def one_dir(request, id_dir: int):
     dir = get_object_or_404(Director, id=id_dir)
     return render(request, 'movie_app/one_dir.html', {
         'dir': dir
+    })
+
+
+def all_actors(request):
+    actors = Actor.objects.all
+    return render(request, 'movie_app/all_actors.html', {
+        'actors': actors,
+    })
+
+
+def one_actor(request, id_actor: int):
+    actor = get_object_or_404(Actor, id=id_actor)
+    return render(request, 'movie_app/one_actors.html', {
+        'actor': actor,
     })

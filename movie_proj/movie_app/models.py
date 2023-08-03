@@ -4,9 +4,9 @@ from django.urls import reverse
 # создание ссылки slug
 from django.utils.text import slugify
 
-
 # метод для волидирования полей
-from django.core.validators import MaxValueValidator,MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 # from transliterate import translit
 
@@ -19,7 +19,7 @@ class Director(models.Model):
     director_email = models.EmailField(default='top_player@top.gun')
 
     def get_url(self):
-        return reverse('one_dir', args=[self.id])
+        return reverse('one-directors', args=[self.id])
 
     def __str__(self):
         return f'{self.first_name} {self.director} {self.director_email}'
@@ -36,6 +36,8 @@ class Actor(models.Model):
     ]
     gender = models.CharField(max_length=1, choices=GENDERS, default=MALE)
 
+    def get_url(self):
+        return reverse('one-actor', args=[self.id])
 
     def __str__(self):
         if self.gender == self.MALE:
@@ -43,11 +45,12 @@ class Actor(models.Model):
         else:
             return f' Актриса {self.first_name} {self.last_name}'
 
+
 class Movie(models.Model):
     name = models.CharField(max_length=40)
     rating = models.IntegerField(validators=[MinValueValidator(1),
                                              MaxValueValidator(100)])
-    year = models.IntegerField(null=True, blank=True) #blank для хранения пустых значений в поле admin
+    year = models.IntegerField(null=True, blank=True)  # blank для хранения пустых значений в поле admin
     budget = models.IntegerField(default=1000000)
 
     # создаем foreignKey null=True для возможности сохранения пустых значений PROTECT не позволяет удалить значение
@@ -55,8 +58,8 @@ class Movie(models.Model):
     # on_delete=models.CASCADE при попытке удаления поля удалятся записи связанные с этим полем
     # on_delete=models.SET_NULL при таком удалении поля в записях связаных с этим поле проставится значение null
     director = models.ForeignKey(Director, on_delete=models.PROTECT, null=True)
+    # related_name = название нашей модели во множественном числе'6
     actors = models.ManyToManyField(Actor)
-
 
     slug = models.SlugField(default='', null=False, db_index=True)
     # Choices field https://docs.djangoproject.com/en/4.0/ref/models/fields/#field-choices применяется когда у нас маленький выбор значений
@@ -82,4 +85,5 @@ class Movie(models.Model):
     def __str__(self):
         return f'{self.name} - {self.rating}%'
 
+# python3 manage.py shell_plus --print-sql
 # from movie_app.models import Movie
