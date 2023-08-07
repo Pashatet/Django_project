@@ -1,20 +1,14 @@
-def fig(height, width):
+class Person:
+    name = "John Smith"
+    age = 30
+    gender = "male"
+    address = "123 Main St"
+    phone_number = "555-555-5555"
+    email = "johnsmith@example.com"
+    is_employed = True
 
 
-    # for i in range(height):
-    #     for j in range(i):
-    #         print("*", end="")
-    # print()
-
-    for i in range(height):
-
-        for j in range(height - i):
-            print(" ", end="")
-
-        for k in range(i + 1):
-            print("*", end="")
-        for l in range(width - 1):
-            print(" ", end="")
-        print()
-
-fig(10,5)
+x = input().lower()
+y = x.split()
+for i in y:
+    print(hasattr(Person, i))

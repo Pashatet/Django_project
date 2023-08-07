@@ -1,6 +1,13 @@
 from django.contrib import admin, messages
-from .models import Movie, Director, Actor
+from .models import Movie, Director, Actor, DressingRoom
 from django.db.models import QuerySet  # для анатации QuerySet
+
+
+
+
+admin.site.register(Director)
+admin.site.register(Actor)
+# admin.site.register(DressingRoom)
 
 
 # для создания собственного филттра нужно создать новый класс
@@ -26,8 +33,10 @@ class RatingFilter(admin.SimpleListFilter):
 
 # Register your models here.
 
-admin.site.register(Director)
-admin.site.register(Actor)
+
+@admin.register(DressingRoom)
+class DressingRoomAdmin(admin.ModelAdmin):
+    list_display = ['floor', 'number', 'actor']
 
 
 @admin.register(Movie)
