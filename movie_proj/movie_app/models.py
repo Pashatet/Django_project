@@ -12,6 +12,15 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
+class DressingRoom(models.Model):
+    floor = models.IntegerField()
+    number = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.floor} {self.number}'
+
+
+
 
 class Director(models.Model):
     first_name = models.CharField(max_length=100)
@@ -35,6 +44,9 @@ class Actor(models.Model):
         (FEMALE, 'Women'),
     ]
     gender = models.CharField(max_length=1, choices=GENDERS, default=MALE)
+    # создание связи одинк к одному
+    # если мы поставили on_delete=models.SET_NULL то в базу данных мы должны разрешить сохранять пустые значения
+    dreesing = models.OneToOneField(DressingRoom, on_delete=models.SET_NULL, null=True, blank=True)
 
     def get_url(self):
         return reverse('one-actor', args=[self.id])
@@ -50,7 +62,7 @@ class Movie(models.Model):
     name = models.CharField(max_length=40)
     rating = models.IntegerField(validators=[MinValueValidator(1),
                                              MaxValueValidator(100)])
-    year = models.IntegerField(null=True, blank=True)  # blank для хранения пустых значений в поле admin
+    year = models.IntegerField(null=True, blank=True)  # blank для хранения пустых значений в поле
     budget = models.IntegerField(default=1000000)
 
     # создаем foreignKey null=True для возможности сохранения пустых значений PROTECT не позволяет удалить значение

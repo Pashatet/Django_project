@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Оставте отзыв</h2>
+    <form action="/" method="post">
+<!--        для обезопасивания данных в url используем post-->
+        {% csrf_token %}
+        <labl for="name_id">Имя: </labl>
+        <input type="text" id="name_id" name="name">
+        <br>
+        <br>
+        <labl for="lastname_id">Фамилия: </labl>
+        <input type="text" id="lastname_id" name="lastname">
+        <br>
+        <br>
+        <labl for="feedback_id">Отзыв: </labl>
+        <textarea name="feedback" id="feedback_id" cols="30" rows="10"></textarea>
+        <br><br>
+        <button>Отправить</button>
+        <button type="reset">Сбросить</button>
+    </form>
+</body>
+</html>
