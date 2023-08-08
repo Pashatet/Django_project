@@ -8,15 +8,18 @@ from .models import Feedback
 
 def index(request):
     if request.method == 'POST':
+        # автоматом создаст обьект если он будет валидныйм
         form = forms.FeedbackForm(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
-            feed = Feedback(
-                name=form.cleaned_data['name'],
-                lastname=form.cleaned_data['lastname'],
-                feedback=form.cleaned_data['feedback'],
-                rating=form.cleaned_data['rating'],
-            ).save()
+            # нам делать не нужно т.к у нас прямая связь с формой
+            # feed = Feedback(
+            #     name=form.cleaned_data['name'],
+            #     lastname=form.cleaned_data['lastname'],
+            #     feedback=form.cleaned_data['feedback'],
+            #     rating=form.cleaned_data['rating'],
+            # ).save()
+            form.save()
             return HttpResponseRedirect('/done')
     else:
         form = forms.FeedbackForm()
