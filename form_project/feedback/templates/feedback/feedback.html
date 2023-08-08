@@ -1,24 +1,63 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'feedback/forms.css' %}">
 </head>
 <body>
     <h2>Оставте отзыв</h2>
     <form action="/" method="post">
 <!--        для обезопасивания данных в url используем post-->
         {% csrf_token %}
-        <labl for="name_id">Имя: </labl>
-        <input type="text" id="name_id" name="name">
-        <br>
-        <br>
-        <labl for="lastname_id">Фамилия: </labl>
-        <input type="text" id="lastname_id" name="lastname">
-        <br>
-        <br>
-        <labl for="feedback_id">Отзыв: </labl>
-        <textarea name="feedback" id="feedback_id" cols="30" rows="10"></textarea>
+
+        {% for field in form %}
+        <div class="form-style {% if filed.errors %} errors {%endif%} ">
+            {{ field.label_tag }}
+            {{ field.errors }}
+            {{ field }}
+        </div>
+        {% endfor %}
+
+<!--        <div>-->
+<!--            {{ form.name.label_tag }}-->
+<!--            {{ form.name.errors }}-->
+<!--            {{ form.name }}-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            {{ form.lastname.label_tag }}-->
+<!--            {{ form.lastname.errors }}-->
+<!--            {{ form.lastname }}-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            {{ form.feedback.label_tag }}-->
+<!--            {{ form.feedback.errors }}-->
+<!--            {{ form.feedback }}-->
+<!--        </div>-->
+
+<!--        <div>-->
+<!--            {{ form.rating.label_tag }}-->
+<!--            {{ form.rating.errors }}-->
+<!--            {{ form.rating }}-->
+<!--        </div>-->
+<!--        создание формы с помощью HTML-->
+<!--        {% if got_error %}-->
+<!--        <p>Нельзя вводлить пустое имя</p>-->
+<!--        {% endif %}-->
+<!--        <labl for="name_id">Имя: </labl>-->
+<!--        <input type="text" id="name_id" name="name">-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <labl for="lastname_id">Фамилия: </labl>-->
+<!--        <input type="text" id="lastname_id" name="lastname">-->
+<!--        <br>-->
+<!--        <br>-->
+<!--        <labl for="feedback_id">Отзыв: </labl>-->
+<!--        <textarea name="feedback" id="feedback_id" cols="30" rows="10"></textarea>-->
         <br><br>
         <button>Отправить</button>
         <button type="reset">Сбросить</button>
