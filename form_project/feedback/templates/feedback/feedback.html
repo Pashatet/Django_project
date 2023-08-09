@@ -1,13 +1,11 @@
+{% extends 'feedback/base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{% static 'feedback/forms.css' %}">
-</head>
-<body>
+
+{% block title %} Страница отзывов {% endblock %}
+
+
+{% block content %}
     <h2>Оставте отзыв</h2>
     <form method="post">
 <!--        для обезопасивания данных в url используем post-->
@@ -61,6 +59,4 @@
         <br><br>
         <button>Отправить</button>
         <button type="reset">Сбросить</button>
-    </form>
-</body>
-</html>
+{% endblock %}
