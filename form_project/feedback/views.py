@@ -3,8 +3,25 @@ from django.http import HttpResponseRedirect
 from . import forms
 from .models import Feedback
 
+# логика представлений на основе классов
+from django.views import View
+
 
 # Create your views here.
+
+class FeedBackView(View):
+    def get(self, request):
+        form = forms.FeedbackForm()
+        return render(request, 'feedback/feedback.html', context={'form': form})
+
+    def post(self, request):
+        form = forms.FeedbackForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            form.save()
+            return HttpResponseRedirect('/done')
+        return render(request, 'feedback/feedback.html', context={'form': form})
+
 
 def index(request):
     if request.method == 'POST':
@@ -25,6 +42,34 @@ def index(request):
         form = forms.FeedbackForm()
     return render(request, 'feedback/feedback.html', context={'form': form})
 
+
+class FeedBackUpdateView(View):
+    def get(self, request, id_feedback):
+        feed = Feedback.objects.get(id=id_feedback)
+        form = forms.FeedbackForm(instance=feed)
+        return render(request, 'feedback/feedback.html', context={'form': form})
+
+    def post(self, request, id_feedback):
+        feed = Feedback.objects.get(id=id_feedback)
+        if request.method == 'POST':
+            form = forms.FeedbackForm(request.POST, instance=feed)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect('/done')
+        return render(request, 'feedback/feedback.html', context={'form': form})
+
+
+def update_feedback(request, id_feedback):
+    feed = Feedback.objects.get(id=id_feedback)
+    if request.method == 'POST':
+        form = forms.FeedbackForm(request.POST, instance=feed)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/done')
+    else:
+        form = forms.FeedbackForm(instance=feed)
+    return render(request, 'feedback/feedback.html', context={'form': form})
+
     # создание формы с помощью html
     # if request.method == 'POST':
     #     name = request.POST['name']
@@ -43,6 +88,12 @@ def index(request):
 #         print(name)
 #         return HttpResponseRedirect('/done')
 #     return render(request, 'feedback/feedback.html', context={'form': form})
+
+
+class DoneView(View):
+    def get(self, request):
+        return render(request, 'feedback/done.html')
+
 
 def done(request):
     return render(request, 'feedback/done.html')
