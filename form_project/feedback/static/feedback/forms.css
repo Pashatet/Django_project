@@ -76,3 +76,9 @@ button:active {
 .errors label{
  color: #aaff54;
 }
+
+
+
+th, td {
+    border: 1px solid black;
+}
