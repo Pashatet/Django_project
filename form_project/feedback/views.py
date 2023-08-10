@@ -7,6 +7,8 @@ from .models import Feedback
 from django.views import View
 # если нам только нужно вывести шаблон можно воспользоваться TemplateView
 from django.views.generic.base import TemplateView
+# если нам только нужно вывести шаблон только с записями базы данных можно воспользоваться ListView
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 
@@ -93,6 +95,7 @@ def update_feedback(request, id_feedback):
 
 class DoneView(TemplateView):
     template_name = 'feedback/done.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['name'] = 'Ivanov I.I'
@@ -102,3 +105,43 @@ class DoneView(TemplateView):
 
 def done(request):
     return render(request, 'feedback/done.html')
+
+
+# class ListFeedBack(TemplateView):
+#     template_name = 'feedback/list_feedback.html'
+#
+#       можно добавить внутрь нашего context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data()
+#         context['all_feed'] = Feedback.objects.all()
+#         return context
+
+# нужем нам для отображения списка данных хранящихся в нашей модели
+class ListFeedBack(ListView):
+    template_name = 'feedback/list_feedback.html'
+    # изначлаьно ListView кладет данные в objectlist
+    model = Feedback
+    # можно переопределить название переменной в которой буду храниться все записи
+    # context_object_name = 'и тут свое название'
+
+    # может отфильтровать данные
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        filter_qs = queryset.filter(rating__gt=1)
+        return filter_qs
+
+# class DetailFeedBack(TemplateView):
+#     template_name = 'feedback/detail_feedback.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['feedback'] = Feedback.objects.get(id=kwargs['id_feedback'])
+#         return context
+#detailview нужен для реализации вывода информации о отдельной записи
+class DetailFeedBack(DetailView):
+    template_name = 'feedback/detail_feedback.html'
+    # описываем model чтобы django понимал с какой таблички брать данные
+    model = Feedback
+    # в html для получения данных мы обращаемся к имени нашей модели Feedback в нижнем регистре
+#     еще можно в html обращаться object
+

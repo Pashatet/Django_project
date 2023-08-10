@@ -1,0 +1,23 @@
+{% extends 'feedback/base.html' %}
+
+{% block title %} Отзыв готов {% endblock %}
+
+{% block content %}
+<h2>Отзыв готов</h2>
+<table>
+    <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Отзыв</th>
+        <th>Рейтинг</th>
+    </tr>
+    {% for item in object_list %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.lastname }}</td>
+        <td>{{ item.feedback }}</td>
+        <td>{{ item.rating }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'feedback/base.html' %}
+
+{% block title %} Отзыв {{ feedback.id }} {% endblock %}
+{% block content %}
+    <h2> Уважаемый {{ feedback.name }}! </h2>
+    <h2> Ваш отзыв {{ feedback.feedback }}  </h2>
+    <h2> успешно обработан</h2>
+{% endblock %}
