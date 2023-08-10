@@ -5,7 +5,8 @@ from .models import Feedback
 
 # логика представлений на основе классов
 from django.views import View
-
+# если нам только нужно вывести шаблон можно воспользоваться TemplateView
+from django.views.generic.base import TemplateView
 
 # Create your views here.
 
@@ -90,9 +91,13 @@ def update_feedback(request, id_feedback):
 #     return render(request, 'feedback/feedback.html', context={'form': form})
 
 
-class DoneView(View):
-    def get(self, request):
-        return render(request, 'feedback/done.html')
+class DoneView(TemplateView):
+    template_name = 'feedback/done.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context['name'] = 'Ivanov I.I'
+        context['date'] = '22.22.2222'
+        return context
 
 
 def done(request):
