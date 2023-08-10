@@ -9,22 +9,56 @@ from django.views import View
 from django.views.generic.base import TemplateView
 # если нам только нужно вывести шаблон только с записями базы данных можно воспользоваться ListView
 from django.views.generic import ListView, DetailView
-
+# форма в которой реализовано для метода get and post
+from django.views.generic.edit import FormView, CreateView, UpdateView
 # Create your views here.
 
-class FeedBackView(View):
-    def get(self, request):
-        form = forms.FeedbackForm()
-        return render(request, 'feedback/feedback.html', context={'form': form})
+# class FeedBackView(View):
+#     def get(self, request):
+#         form = forms.FeedbackForm()
+#         return render(request, 'feedback/feedback.html', context={'form': form})
+#
+#     def post(self, request):
+#         form = forms.FeedbackForm(request.POST)
+#         if form.is_valid():
+#             print(form.cleaned_data)
+#             form.save()
+#             return HttpResponseRedirect('/done')
+#         return render(request, 'feedback/feedback.html', context={'form': form})
 
-    def post(self, request):
-        form = forms.FeedbackForm(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-            form.save()
-            return HttpResponseRedirect('/done')
-        return render(request, 'feedback/feedback.html', context={'form': form})
+# class FeedBackView(FormView):
+#     # указываем какую фому нужно отобразить название класса без вызова
+#     form_class = forms.FeedbackForm
+#     # имя темплейта и у нас готов метод get
+#     template_name = 'feedback/feedback.html'
+#     # указываем куда должно быть перенаправление при успешной обработке формы
+#     success_url = '/done'
+#     # указываем что будем делать с данными с данном случае
+#     # сама форма летит внутрь шаблона под именем form
+#
+#     # CreateView с помошью него мы можем избавиться от этого метода
+#     def form_valid(self, form):
+#         # Значения приходЯТ в cleaned_data и значения валидные
+#         form.save()
+#         return super().form_valid(form)
+#
 
+
+class FeedBackViewUpdate(UpdateView):
+    model = Feedback
+    form_class = forms.FeedbackForm
+    # fields = '__all__' если это используем то мы не получаем ошибку при перезаписывании данных т.к данные то не пустые
+    template_name = 'feedback/feedback.html'
+    success_url = '/done'
+
+
+class FeedBackView(CreateView):
+    model = Feedback
+    # form_class = forms.FeedbackForm
+    # если мы не будем настраивать форму то мы не сможем настраивать labels и error_message
+    fields = '__all__'
+    template_name = 'feedback/feedback.html'
+    success_url = '/done'
 
 def index(request):
     if request.method == 'POST':
