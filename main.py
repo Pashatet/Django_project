@@ -1,14 +1,10 @@
-class Person:
-    name = "John Smith"
-    age = 30
-    gender = "male"
-    address = "123 Main St"
-    phone_number = "555-555-5555"
-    email = "johnsmith@example.com"
-    is_employed = True
+class Config:
+    pass
 
+def create_instance(n: int) -> Config:
+    obj = Config()
+    for i in range(1, n+1):
+           setattr(obj, f'attribute{i}', f'value{i}')
+    return obj
 
-x = input().lower()
-y = x.split()
-for i in y:
-    print(hasattr(Person, i))
+print(create_instance(2))
