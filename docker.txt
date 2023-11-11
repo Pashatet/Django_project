@@ -1,0 +1,84 @@
+Docker CLI - утилита командной строки запуск, остановка, уничтожение контейнера
+Rest API - взаимодействие команд между собой и общение с demon
+Docker demon - образы, контейнеры, управляет обьектами docker
+Namespace PID взаимодействие между системой и внутренним контейнером. В контенере свой PID с нумерацией от 1, но в
+системе номер процеса свой
+Типы сестей docker: bridge, None, host
+
+
+dorker run - запуск контейнера
+dorker run -d - запуск контейнер в фотоновм режиме
+dorker run -it - подключиться к контейнеру и взаимодельствовать с им
+dorker run -p 80:5000 name - сопоставление порта сервера и image для доступа извне для пользования образом
+dorker run -v /opt/datadir/:/var/mysql name - подключение какбы внешнего диска к образу для хранения данных и их
+связывания
+docker run --name webapp nginx:1.14-alpine - скачивание контейнера с docker hub и запуск контейнера
+docker ps - просмотр запущенных контейнеров
+docker logs name - просмотр логов в контейнере
+docker ps -a - просмотр запущенных контейнеров и не запущенных
+docker stop имя или айди - остановка контейнера
+docker rm - избавиться от ненужного контейнера
+docker rm -f $(docker ps -aq) удалить все контейнеры
+docker images - список образов которые есть у нас на хосте
+docker rmi - удаление образа перед удаление нужно проверить чтобы образ не использовался
+docker rmi -f $(docker images -q)
+docker pull - просто скачает обрас но не будет его запускать
+если процесы на контейнере прекратятся контейнер остановится
+docker exec - выполнить команду на работающем контейнере
+docker attach - прикрепление контейнера к консоли
+docker inspect name/id - посмотреть полную информацию по контейнеру
+docker history name - посмотреть историю слоев самого образа
+docker image prune -a - удалит все неиспользуемые образы на докер-хосте
+Запусти экземпляр образа webapp-rockets и опубликуй порт 8080 контейнера на 30082 порту докер-хоста.
+docker run -d -p 30082:8080 webapp-rockets
+остановить работающий контейнер
+docker stop $(docker ps -q --filter ancestor=webapp-rockets)
+
+docker run -m 512m nginx - Чтобы ограничить память, нам нужно использовать параметр m
+docker run -m 512m --memory-reservation=256m nginx - можем установить мягкое ограничение, называемое резервированием
+docker run --cpus=2 nginx - можем установить лимит процессоров, используя параметр cpus
+docker run --cpus=2 --cpu-shares=2000 nginx - можем указать приоритет выделения ЦП. По умолчанию 1024, чем больше число,
+тем выше приоритет
+
+docker network create --driver bridge - создание собственной внутренюю сети с указанием его тип сети с помощью --driver
+docker ntework ls - вывести список всех сетей
+
+docker-compose up -d - разворачивает docker-compose
+docker-compose down - останавливает стек и удаляет все контейнере с сети
+docker-compose stop - остановить (не удаляя) весь стек контейнеров,
+docker-compose ps - показывает контейнеры за которые docker-compose несет ответственность
+docker-compose logs - общий пул логов поднятого стека
+docker-compose up -d --scale vote=3 - управление количеством реплик определенной службы
+docker-compose up -d --scale wordpress=2 - Увеличь количество реплик wordpress до 2
+Запусти контейнер с именем rocket-app из образа rotorocloud/simple-webapp-rockets и установи переменную ROCKET_SIZE
+в значение big. Сделай приложение доступным на порту 30888 докер-хоста. Приложение в контейнере работает на 8080 порту.
+docker run -p 30888:8080 --name rocket-app -e ROCKET_SIZE=big -d rotorocloud/simple-webapp-rockets
+
+Разверни экземпляр базы mysql с помощью образа mysql и назови контейнер mysql-db.
+Для этого контейнера установи пароль db_pass123
+docker run -d -e MYSQL_ROOT_PASSWORD=db_pass123 --name mysql-db mysql
+
+создай простой контейнер с wordpress, он должен называться wordpress, образ: wordpress,
+сделай link этому контейнеру к контейнеру с именем db выставь 30085 порт на докер-хост
+docker run -d --name=wordpress --link db:db -p 30085:80 wordpress
+
+Создай новую сеть с названием wp-mysql-network, которая будет использовать сетевой драйвер bridge.
+Назначь ей 172.22.0.0/24 подсеть. Настрой Gateway 172.22.0.1
+docker network create --driver bridge --subnet 172.22.0.0/24 --gateway 172.22.0.1 wp-mysql-network
+
+CMD and ENTRYPOINT
+docker run ubuntu-sleeper sleep 5
+FROM Ubuntu
+CMD sleep 5
+при использовании данной команды в CMD передапижется текущее значение
+docker run ubuntu-sleeper 5 в ENTRYPOINT передастся значение 5
+FROM Ubuntu
+ENTRYPOINT ["sleep"]
+если значение не передать будет ошибка и поэтому нужно миксовать эти две команды
+FROM Ubuntu
+ENTRYPOINT ["sleep"]
+CMD ["5"] чтобы это сработало нужно казывать ENTRYPOINT и CMD с формате json
+
+ps aux - посмотреть все PID приложений
+
+registry - место где хранятся образы по умолчанию dockerhub

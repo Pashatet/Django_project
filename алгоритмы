@@ -1,0 +1,83 @@
+---------бинарный поиск-------------
+
+---------рекурсивный------------
+def binary_search_recursive(array, element, start, end):
+    if start > end:
+        return -1
+
+    mid = (start + end) // 2
+    if element == array[mid]:
+        return mid
+
+    if element < array[mid]:
+        return binary_search_recursive(array, element, start, mid-1)
+    else:
+        return binary_search_recursive(array, element, mid+1, end)
+
+
+element = 18
+array = [1, 2, 5, 7, 13, 15, 16, 18, 24, 28, 29]
+
+print("Searching for {}".format(element))
+print("Index of {}: {}".format(element, binary_search_recursive(array, element, 0, len(array)-1)))
+
+
+--------------повторяющийся-----------------
+def binary_search_iterative(array, element):
+    mid = 0
+    start = 0
+    end = len(array)-1
+    step = 0
+
+    while (start <= end):
+        print("Subarray in step {}: {}".format(step, str(array[start:end+1])))
+        step = step+1
+        mid = (start + end) // 2
+
+        if element == array[mid]:
+            return mid
+
+        if element < array[mid]:
+            end = mid - 1
+        else:
+            start = mid + 1
+    return -1
+
+array = [1, 2, 5, 7, 13, 15, 16, 18, 24, 28, 29]
+element = 18
+
+print("Searching for {} in {}".format(element, array))
+print("Index of {}: {}".format(element, binary_search_iterative(array, element)))
+
+
+def binary_search(list, item):
+    # в low и high хранятся границы части списка, где выполняется поиск
+    low = 0
+    high = len(list) - 1
+    i = 0
+    # Пока не останется один элемент
+    while low <= high:
+        # Проверяем средний элемент
+        mid = (low + high) // 2
+        guess = list[mid]
+        # Значение найдено
+        if guess == item:
+            return mid
+        # Значение велико
+        if guess > item:
+            high = mid - 1
+        # Значение мало
+        else:
+            low = mid + 1
+        i = i + 1
+        print(i)
+
+    # Значение не найдено
+    return None
+
+
+my_list = [1, 3, 5, 7, 9]
+print(binary_search(my_list, 3))  # => 1 (позиция элемента в списке)
+
+# 'None' в Python означает "ничто". Элемент не найден.
+print(binary_search(my_list, -1))  # => None
