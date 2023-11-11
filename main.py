@@ -1,10 +1,2 @@
-class Config:
-    pass
-
-def create_instance(n: int) -> Config:
-    obj = Config()
-    for i in range(1, n+1):
-           setattr(obj, f'attribute{i}', f'value{i}')
-    return obj
-
-print(create_instance(2))
+equipment_list = '#001 ps5f6537c5-506f-43c2-b095-1890ef579c52: 265 units'
+print(equipment_list[0:4])
