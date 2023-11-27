@@ -131,3 +131,6 @@ python3 manage.py createsuperuser
 
 Director.objects.all()[0].movie_set
 при создании foreingKey у нас создается обратная связь и через имя модели с приставкой _set
+
+python manage.py makemigrations
+python manage.py migrate

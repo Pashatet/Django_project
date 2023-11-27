@@ -405,7 +405,7 @@ print(p.setCoords(1, 2))
 print(p.validate(10))
 print(p.norm2(1,2))
 
-@property
+@property - является дескриптором, который позволяет нам создавать атрибуты объекта, которые можно получать, устанавливать и удалять
 class Person:
     def __init__(self, name, old):
         self.__name = name
@@ -491,7 +491,9 @@ world: dict[str(для ключа), int(для значения)] = {'one': 1, '
 persons: set[str] = {'awdawd', 'adwd', 'esf'}
 
 10. виртуальное окружение
-python -m venv venv далее активация установка билиотек и деактивация
+python -m venv myenv далее активация установка билиотек и деактивация
+myenv\Scripts\activate
+deactivate
 11. копирование и грубокое копирование
 copy копируется индекс изм все copy and deepcopy не изменются при копировании
 12. poetry
