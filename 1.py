@@ -32,4 +32,4 @@ zodiac_element = {
 # awdadw
 for x in zodiac_element:
     print(zodiac_element.get(x))
->>>>>>> be2f9d949cc0fd60371075a83e5ef4b14cca0fb5
+# >>>>>>> be2f9d949cc0fd60371075a83e5ef4b14cca0fb5
