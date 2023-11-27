@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import aiohttp
 import asyncio
 
@@ -21,8 +20,6 @@ async def main():
 # Запуск асинхронной функции
 asyncio.run(main())
 
-# dfsfsfdsf
-# =======
 zodiac_element = {
     'fire': ['aries', 'leo', 'sagittarius'],
     'earth': ['taurus', 'virgo', 'capricorn'],
