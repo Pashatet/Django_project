@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import aiohttp
 import asyncio
 
@@ -21,3 +22,14 @@ async def main():
 asyncio.run(main())
 
 # dfsfsfdsf
+=======
+zodiac_element = {
+    'fire': ['aries', 'leo', 'sagittarius'],
+    'earth': ['taurus', 'virgo', 'capricorn'],
+    'air': ['gemini', 'libra', 'aquarius'],
+    'water': ['cancer', 'scorpio', 'pisces']
+}
+# awdadw
+for x in zodiac_element:
+    print(zodiac_element.get(x))
+>>>>>>> be2f9d949cc0fd60371075a83e5ef4b14cca0fb5
