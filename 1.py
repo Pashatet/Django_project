@@ -1,28 +1,23 @@
-import asyncio, time
-# Корутина для отправки запроса.
-
-
-equipment_list = ['#001 ps5f6537c5-506f-43c2-b095-1890ef579c52: 265 units',
-                  '#002 ps5ec3020b-022f-466b-845a-a8f11161a6d1: 39 units',
-                  '#003 psb5c6c090-4f1a-4741-936e-5fe2b3e8d181: 242 units',
-                  '#004 ps10c90127-a4a5-4f85-b23f-66421ab04b09: 108 units',
-                  '#005 psa8b77d97-ef82-4832-9601-36abfc399af2: 72 units']
-
+import aiohttp
 import asyncio
 
+# Асинхронная функция для выполнения GET-запроса с передачей параметров
+async def fetch_with_params(session, url, params=None):
+    async with session.get(url, params=params) as response:
+        return response.url
 
-# Корутина для отправки запроса.
-async def equipment_request(request):
-    await asyncio.sleep(1)
+async def main():
+    # Параметры для GET-запроса
+    params = {
+        'param1': 'value1',
+    }
 
-    return f'{request[:4]} is Ok!'
+    # Создание асинхронной сессии и отправка запроса с параметрами
+    async with aiohttp.ClientSession() as session:
+        response = await fetch_with_params(session, 'http://example.com/page', params)
+        print(response)
 
+# Запуск асинхронной функции
+asyncio.run(main())
 
-# Корутина для управления отправкой запросов на заказ оборудования
-async def send_requests():
-    res = await asyncio.gather(*[equipment_request(el) for el in equipment_list])
-    print(f'На отправку {len(equipment_list)} запросов потребовалось {query_time()} секунд!')
-
-asyncio.run(send_requests())
-# Рассчитайте время выполнения
-
+# dfsfsfdsf
