@@ -1,8 +1,25 @@
 from django.urls import path
-from . import views as views_blog
+from . import views
+
+app_name = 'blog'
 
 urlpatterns = [
-    path('', views_blog.index),
-    path(route='<int:number_post>/', view=views_blog.det_info_about_post_number),
-    path('<str:name_post>/', views_blog.get_info_about_post),
+    # представления поста
+    path('', views.post_list, name='post_list'),
+    # path('', views.PostListView.as_view(), name='post_list'),
+
+    path('tag/<slug:tag_slug>/',
+         views.post_list, name='post_list_by_tag'),
+
+    path('<int:year>/<int:month>/<int:day>/<slug:post>/',
+         views.post_detail,
+         name='post_detail'),
+
+    path('<int:post_id>/share/',
+         views.post_share, name='post_share'),
+
+    path('<int:post_id>/comment/',
+         views.post_comment, name='post_comment'),
+
+    path('search/', views.post_search, name='post_search'),
 ]
